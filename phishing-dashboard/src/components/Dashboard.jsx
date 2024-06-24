@@ -3,14 +3,17 @@ import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from '../firebaseConfig';
-import NewCampaign from './NewCampaign'; // Import NewCampaign component
+import NewCampaign from './NewCampaign';
+import Campaigns from './Campaigns';
+import Profile from './Profile';
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState([]);
-  const [view, setView] = useState('list'); // 'list' or 'create'
+  const [view, setView] = useState('list');
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [selectedEmail, setSelectedEmail] = useState('');
   const navigate = useNavigate();
 
-  // Define fetchCampaigns function outside useEffect
   const fetchCampaigns = async () => {
     try {
       const campaignsCollection = collection(db, 'campaigns');
@@ -22,13 +25,13 @@ const Dashboard = () => {
       setCampaigns(campaignList);
     } catch (error) {
       console.error('Error fetching campaigns:', error);
-      alert('Error fetching campaigns');
+      alert('Error fetching campaigns. Please check console for details.');
     }
   };
 
   useEffect(() => {
-    fetchCampaigns(); // Call fetchCampaigns when component mounts
-  }, []); // Empty dependency array means this effect runs once on mount
+    fetchCampaigns();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -46,12 +49,18 @@ const Dashboard = () => {
         ...campaignData,
         createdAt: new Date()
       });
-      setView('list'); // Switch back to list view after campaign creation
-      fetchCampaigns(); // Refetch campaigns
+      setView('list');
+      fetchCampaigns();
     } catch (error) {
       console.error('Error adding campaign:', error);
       alert('Error adding campaign');
     }
+  };
+
+  const handleProfileEmail = (campaignId, email) => {
+    setSelectedCampaign(campaignId);
+    setSelectedEmail(email);
+    setView('profile');
   };
 
   return (
@@ -64,21 +73,17 @@ const Dashboard = () => {
         {view === 'list' ? (
           <div>
             <button onClick={() => setView('create')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">New Campaign</button>
-            <h3 className="text-2xl font-bold mt-4">Campaigns</h3>
-            <ul className="mt-4 space-y-4">
-              {campaigns.map(campaign => (
-                <li key={campaign.id} className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                  <h4 className="text-xl font-bold">{campaign.name}</h4>
-                  <p className="text-gray-700">Domain: {campaign.domain}</p>
-                  <p className="text-gray-700">Created At: {new Date(campaign.createdAt.seconds * 1000).toLocaleString()}</p>
-                </li>
-              ))}
-            </ul>
+            <Campaigns campaigns={campaigns} onProfileEmail={handleProfileEmail} />
+          </div>
+        ) : view === 'profile' ? (
+          <div>
+            <button onClick={() => setView('list')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Back to Campaigns</button>
+            <Profile campaignId={selectedCampaign} email={selectedEmail} />
           </div>
         ) : (
           <div>
             <button onClick={() => setView('list')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Back to Campaigns</button>
-            <NewCampaign onCreateCampaign={handleCreateCampaign} /> {/* Pass handleCreateCampaign as prop */}
+            <NewCampaign onCreateCampaign={handleCreateCampaign} />
           </div>
         )}
       </div>

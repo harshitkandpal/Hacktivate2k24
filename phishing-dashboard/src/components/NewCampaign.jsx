@@ -1,6 +1,8 @@
+// NewCampaign.js - Component for creating new campaigns and uploading CSV files
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, writeBatch } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { parse } from 'papaparse'; // Library for parsing CSV
 
@@ -27,7 +29,7 @@ const NewCampaign = () => {
       }
 
       // Redirect to campaigns list after successful submission
-      navigate('/campaigns');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error adding campaign:', error);
       alert('Error adding campaign');
@@ -36,6 +38,8 @@ const NewCampaign = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     setCsvFile(file);
 
     // Parse CSV file on change
@@ -58,11 +62,12 @@ const NewCampaign = () => {
   const uploadTargets = async (campaignId) => {
     try {
       // Batch upload targets to Firestore
-      const batch = db.batch();
-      const targetsCollection = collection(db, 'targets');
+      const batch = writeBatch(db);
+      const campaignDocRef = doc(db, 'campaigns', campaignId);
+      const targetsCollection = collection(campaignDocRef, 'targets');
 
       targets.forEach((target) => {
-        const targetRef = collection(targetsCollection.doc(campaignId));
+        const targetRef = doc(targetsCollection);
         batch.set(targetRef, {
           // Adjust fields as per your CSV structure
           name: target[0], // Assuming first column is name
@@ -113,7 +118,6 @@ const NewCampaign = () => {
               accept=".csv"
               onChange={handleFileChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
             />
             <small className="block text-gray-500">Upload a CSV file with targets.</small>
           </div>

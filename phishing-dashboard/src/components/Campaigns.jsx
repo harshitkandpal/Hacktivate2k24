@@ -1,23 +1,37 @@
-// src/components/Campaigns.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import CampaignDetail from './CampaignDetail'; // Import CampaignDetail component
 
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true); // State to track loading state
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        // Replace with your API endpoint
-        const response = await axios.get('/api/campaigns');
-        setCampaigns(response.data);
+        const campaignsCollection = collection(db, 'campaigns');
+        const campaignSnapshot = await getDocs(campaignsCollection);
+        let campaignList = campaignSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        // Sort campaignList by createdAt timestamp in descending order
+        campaignList.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+
+        setCampaigns(campaignList);
+        setLoading(false); // Set loading to false after fetching data
       } catch (error) {
         console.error('Error fetching campaigns:', error);
+        setLoading(false); // Ensure loading state is updated even on error
       }
     };
 
     fetchCampaigns();
   }, []);
+
+  if (loading) return <div>Loading...</div>; // Show loading indicator
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
@@ -25,10 +39,8 @@ const Campaigns = () => {
         <h2 className="text-3xl font-bold">Campaigns</h2>
         <ul className="mt-4 space-y-4">
           {campaigns.map((campaign) => (
-            <li key={campaign.id} className="p-4 bg-gray-50 rounded-lg shadow-sm">
-              <h4 className="text-xl font-bold">{campaign.name}</h4>
-              <p className="text-gray-700">Domain: {campaign.domain}</p>
-              <p className="text-gray-700">Created At: {new Date(campaign.createdAt.seconds * 1000).toLocaleString()}</p>
+            <li key={campaign.id} className="p-4 bg-gray-50 rounded-lg shadow-sm cursor-pointer">
+              <CampaignDetail campaign={campaign} />
             </li>
           ))}
         </ul>
