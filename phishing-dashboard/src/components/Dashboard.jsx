@@ -1,42 +1,18 @@
-// src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from '../firebaseConfig';
+import NewCampaign from './NewCampaign'; // Import NewCampaign component
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState([]);
-  const [name, setName] = useState('');
-  const [domain, setDomain] = useState('');
   const [view, setView] = useState('list'); // 'list' or 'create'
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      const campaignsCollection = collection(db, 'campaigns');
-      const campaignSnapshot = await getDocs(campaignsCollection);
-      const campaignList = campaignSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setCampaigns(campaignList);
-    };
-    fetchCampaigns();
-  }, []);
-
-  const handleCreateCampaign = async (e) => {
-    e.preventDefault();
+  // Define fetchCampaigns function outside useEffect
+  const fetchCampaigns = async () => {
     try {
-      await addDoc(collection(db, 'campaigns'), {
-        name,
-        domain,
-        createdAt: new Date()
-      });
-      setName('');
-      setDomain('');
-      setView('list');
-      // Refetch campaigns
       const campaignsCollection = collection(db, 'campaigns');
       const campaignSnapshot = await getDocs(campaignsCollection);
       const campaignList = campaignSnapshot.docs.map(doc => ({
@@ -45,10 +21,14 @@ const Dashboard = () => {
       }));
       setCampaigns(campaignList);
     } catch (error) {
-      console.error('Error adding campaign:', error);
-      alert('Error adding campaign');
+      console.error('Error fetching campaigns:', error);
+      alert('Error fetching campaigns');
     }
   };
+
+  useEffect(() => {
+    fetchCampaigns(); // Call fetchCampaigns when component mounts
+  }, []); // Empty dependency array means this effect runs once on mount
 
   const handleLogout = async () => {
     try {
@@ -57,6 +37,20 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error logging out:', error);
       alert('Error logging out');
+    }
+  };
+
+  const handleCreateCampaign = async (campaignData) => {
+    try {
+      await addDoc(collection(db, 'campaigns'), {
+        ...campaignData,
+        createdAt: new Date()
+      });
+      setView('list'); // Switch back to list view after campaign creation
+      fetchCampaigns(); // Refetch campaigns
+    } catch (error) {
+      console.error('Error adding campaign:', error);
+      alert('Error adding campaign');
     }
   };
 
@@ -84,33 +78,7 @@ const Dashboard = () => {
         ) : (
           <div>
             <button onClick={() => setView('list')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Back to Campaigns</button>
-            <h3 className="text-2xl font-bold mt-4">Create New Campaign</h3>
-            <form onSubmit={handleCreateCampaign} className="mt-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Campaign Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Target Domain</label>
-                <input
-                  type="text"
-                  value={domain}
-                  onChange={(e) => setDomain(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Create Campaign
-              </button>
-            </form>
+            <NewCampaign onCreateCampaign={handleCreateCampaign} /> {/* Pass handleCreateCampaign as prop */}
           </div>
         )}
       </div>
