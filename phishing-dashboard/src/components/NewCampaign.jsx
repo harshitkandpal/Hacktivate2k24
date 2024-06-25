@@ -34,7 +34,7 @@ const NewCampaign = () => {
     try {
       setIsLoading(true); // Set loading state to true
   
-      const res = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=5e2eb26be8f54beae4c08e46ec3c181d4d07fb42`);
+      const res = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=apikey`);
       const fetchedData = await res.json();
   
       console.log(fetchedData); // Inspect the data structure
