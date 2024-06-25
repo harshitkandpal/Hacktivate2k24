@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div className="h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="h-screen flex items-center justify-center bg-gray-900 text-white">Loading...</div>;
   }
 
   return (

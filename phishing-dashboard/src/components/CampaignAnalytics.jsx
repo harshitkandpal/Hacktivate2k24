@@ -101,7 +101,7 @@ const CampaignAnalytics = ({ campaign }) => {
   };
 
   return (
-    <div className="mt-4 flex flex-wrap justify-between">
+    <div className="mt-4 flex justify-between">
       <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pr-4">
         <div className="mb-4" style={{ width: '500px', height: '500px' }}>
           <h5 className="text-lg font-bold mb-2">General Analytics:</h5>
