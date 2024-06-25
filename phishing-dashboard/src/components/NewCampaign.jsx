@@ -1,32 +1,43 @@
-// NewCampaign.js - Component for creating new campaigns and uploading CSV files
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, doc, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { parse } from 'papaparse'; // Library for parsing CSV
+import { parse } from 'papaparse';
 
 const NewCampaign = () => {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
-  const [csvFile, setCsvFile] = useState(null); // State to hold the CSV file
-  const [targets, setTargets] = useState([]); // State to hold parsed targets from CSV
+  const [csvFile, setCsvFile] = useState(null);
+  const [targets, setTargets] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Display confirmation alert
+    if (!window.confirm('Are you sure you want to create this campaign?')) {
+      return; // Cancel submission if user clicks Cancel in the confirmation dialog
+    }
+
     try {
       // Create a new campaign document in Firestore
       const campaignRef = await addDoc(collection(db, 'campaigns'), {
-        name,
         domain,
-        createdAt: new Date()
+        name,
+        createdAt: Timestamp.now(), // Firestore Timestamp for current time
+        emails: targets.map(target => ({
+          email: target.email,
+          verified: target.verified || false,
+          quality: target.quality || 0,
+          name: target.name || null,
+          saved: false // Default value for saved
+        })),
+        extensive: true, // Example of static value
+        pattern: "{firstname}.{lastname}@infosys.com", // Example of static value
+        timestamp: 1719297148.66983, // Example of static value
       });
 
-      // Upload campaign targets if CSV file is uploaded
-      if (csvFile) {
-        await uploadTargets(campaignRef.id);
-      }
+      console.log('Campaign added with ID: ', campaignRef.id);
 
       // Redirect to campaigns list after successful submission
       navigate('/dashboard');
@@ -45,11 +56,16 @@ const NewCampaign = () => {
     // Parse CSV file on change
     parse(file, {
       complete: (result) => {
-        // result.data is an array of arrays representing rows and columns
         if (result.data && result.data.length > 0) {
-          // Assuming first row is header and subsequent rows are data
           const csvTargets = result.data.slice(1); // Skip header row
-          setTargets(csvTargets);
+          const formattedTargets = csvTargets.map((target) => ({
+            email: target[3], // Adjust index based on your CSV structure
+            name: target[6] || null, // Adjust index based on your CSV structure
+            verified: target[4] === 'true', // Example of boolean parsing
+            quality: parseInt(target[5]) || 0, // Example of integer parsing
+            saved: false // Default value for saved
+          }));
+          setTargets(formattedTargets);
         }
       },
       error: (error) => {
@@ -57,30 +73,6 @@ const NewCampaign = () => {
         alert('CSV parsing error');
       }
     });
-  };
-
-  const uploadTargets = async (campaignId) => {
-    try {
-      // Batch upload targets to Firestore
-      const batch = writeBatch(db);
-      const campaignDocRef = doc(db, 'campaigns', campaignId);
-      const targetsCollection = collection(campaignDocRef, 'targets');
-
-      targets.forEach((target) => {
-        const targetRef = doc(targetsCollection);
-        batch.set(targetRef, {
-          // Adjust fields as per your CSV structure
-          name: target[0], // Assuming first column is name
-          email: target[1], // Assuming second column is email
-          // Add more fields as needed
-        });
-      });
-
-      await batch.commit();
-    } catch (error) {
-      console.error('Error uploading targets:', error);
-      alert('Error uploading targets');
-    }
   };
 
   return (
@@ -107,7 +99,7 @@ const NewCampaign = () => {
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required={!csvFile} // Domain input is required if no CSV file is uploaded
+              required={!csvFile}
             />
           </div>
           <div>
@@ -128,7 +120,7 @@ const NewCampaign = () => {
                 <ul className="list-disc list-inside">
                   {targets.map((target, index) => (
                     <li key={index}>
-                      {target.join(', ')}
+                      {`${target.email}, ${target.name}`}
                     </li>
                   ))}
                 </ul>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import CampaignDetail from './CampaignDetail';
-import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
 
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -37,21 +37,31 @@ const Campaigns = () => {
     }
   };
 
-  const handleDownloadExcel = (campaign) => {
-    const excelData = [
-      ['Name', 'Domain', 'Created At'],
-      [campaign.name || '', campaign.domain || '', new Date(campaign.timestamp * 1000).toLocaleString() || 'N/A']
-    ];
+  const handleDownloadCSV = (campaign) => {
+    const csvData = [];
 
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(excelData);
-    XLSX.utils.book_append_sheet(wb, ws, 'Campaign Details');
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    // Header row
+    csvData.push(['Campaign Name', 'Domain', 'Created At', 'Email', 'Verified', 'Quality', 'Name']);
+
+    // Campaign details row
+    campaign.emails.forEach(email => {
+      csvData.push([
+        campaign.name || '',
+        campaign.domain || '',
+        new Date(campaign.timestamp * 1000).toLocaleString() || 'N/A',
+        email.email || '',
+        email.verified ? 'Yes' : 'No',
+        email.quality || '',
+        email.name || 'N/A'
+      ]);
+    });
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${campaign.name || 'campaign'}_details.xlsx`;
+    a.setAttribute('download', `${campaign.name || 'campaign'}_details.csv`);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -75,9 +85,9 @@ const Campaigns = () => {
               <CampaignDetail campaign={campaign} campaignId={campaign.id} />
               <button
                 className="bg-green-500 text-black px-4 py-2 rounded-lg mt-2"
-                onClick={() => handleDownloadExcel(campaign)}
+                onClick={() => handleDownloadCSV(campaign)}
               >
-                Download Excel
+                Download CSV
               </button>
             </li>
           ))}
