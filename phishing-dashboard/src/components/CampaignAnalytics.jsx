@@ -39,33 +39,58 @@ const CampaignAnalytics = ({ campaign }) => {
     ],
   };
 
-  return (
-    <div className="mt-4">
-      <h4 className="text-xl font-bold mb-2">Analytics:</h4>
+  // Options for the Pie chart
+  const pieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Disable aspect ratio
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right', // Adjust legend position as needed
+      },
+    },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10,
+      },
+    },
+  };
 
-      {/* General Analytics - Bar Chart */}
-      <div className="mb-4">
-        <h5 className="text-lg font-bold mb-2">General Analytics:</h5>
-        <Bar data={barChartData} />
+  return (
+        <>
+        <h4 className="text-xl font-bold mb-2">Analytics:</h4>
+    <div className="mt-4 flex flex-wrap justify-between">
+      <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pr-4">
+
+        {/* General Analytics - Bar Chart */}
+        <div className="mb-4" style={{width:'500px', height:"500px"}}>
+          <h5 className="text-lg font-bold mb-2">General Analytics:</h5>
+          <Bar data={barChartData} />
+        </div>
       </div>
 
       {/* Phishing Success vs Failure - Pie Chart */}
-      <div className="flex items-center justify-between">
-        <div className="w-1/2 pr-4">
-          <h5 className="text-lg font-bold mb-2">Phishing Success vs Failure:</h5>
-          <Pie data={pieChartData} />
-        </div>
-        <div className="w-1/2">
-          <h5 className="text-lg font-bold mb-2">Phishing Success Rate:</h5>
-          <p className="mb-2">
-            <strong>Success Rate:</strong> {calculateSuccessRate()}%
-          </p>
-          <p className="mb-2">
-            <strong>Failure Rate:</strong> {(100 - calculateSuccessRate()).toFixed(2)}%
-          </p>
+      <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pl-4">
+        <h4 className="text-xl font-bold mb-2">Phishing Success vs Failure:</h4>
+        <div className="" style={{width:'500px', height:"400px"}}>
+          {/* Ensure width and height are set appropriately */}
+          <Pie data={pieChartData} options={pieChartOptions} width={300} height={300} />
+          <div className="ml-4">
+            <h5 className="text-lg font-bold mb-2">Phishing Success Rate:</h5>
+            <p className="mb-2">
+              <strong>Success Rate:</strong> {calculateSuccessRate()}%
+            </p>
+            <p className="mb-2">
+              <strong>Failure Rate:</strong> {(100 - calculateSuccessRate()).toFixed(2)}%
+            </p>
+          </div>
         </div>
       </div>
     </div>
+        </>
   );
 };
 

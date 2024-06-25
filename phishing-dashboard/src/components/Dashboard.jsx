@@ -64,24 +64,24 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 space-y-4">
-        <div className="flex justify-between items-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="w-full bg-white rounded-lg shadow-lg space-y-4">
+        <div className="flex justify-between items-center w-full mb-4 px-4">
           <h2 className="text-3xl font-bold">Dashboard</h2>
           <button onClick={handleLogout} className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md">Logout</button>
         </div>
         {view === 'list' ? (
-          <div>
+          <div className="px-4"> {/* Reduced padding */}
             <button onClick={() => setView('create')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">New Campaign</button>
             <Campaigns campaigns={campaigns} onProfileEmail={handleProfileEmail} />
           </div>
         ) : view === 'profile' ? (
-          <div>
+          <div className="px-4"> {/* Reduced padding */}
             <button onClick={() => setView('list')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Back to Campaigns</button>
             <Profile campaignId={selectedCampaign} email={selectedEmail} />
           </div>
         ) : (
-          <div>
+          <div className="px-4"> {/* Reduced padding */}
             <button onClick={() => setView('list')} className="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Back to Campaigns</button>
             <NewCampaign onCreateCampaign={handleCreateCampaign} />
           </div>
