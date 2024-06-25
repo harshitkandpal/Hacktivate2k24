@@ -75,11 +75,31 @@ const NewCampaign = () => {
     });
   };
 
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#ffffff', // Text color
+      padding: '20px', // Padding around the content
+    },
+    card: {
+      width: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent dark background
+      backdropFilter: 'blur(10px)', // Apply backdrop filter for glassmorphism effect
+      borderRadius: '12px', // Rounded corners
+      padding: '20px', // Padding around the content
+      margin: '10px', // Margin for spacing
+      boxShadow: '0 0 10px #59CCB5', // Box shadow with color #59CCB5
+    },
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-6 space-y-4">
+    <div className="min-h-screen flex flex-col items-center justify-center  p-4" style={styles.container}>
+      <div className="w-full max-w-lg  rounded-lg shadow-lg p-6 space-y-4">
         <h2 className="text-3xl font-bold text-center">New Campaign</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" style={styles.card}>
           <div>
             <label htmlFor="campaignName" className="block text-gray-700">Campaign Name:</label>
             <input
