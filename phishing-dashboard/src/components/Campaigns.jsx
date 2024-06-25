@@ -2,141 +2,170 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import CampaignDetail from './CampaignDetail';
-import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
 
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
-  const [visibleCampaignsCount, setVisibleCampaignsCount] = useState(5);
+  const [visibleCampaigns, setVisibleCampaigns] = useState(2); // Initially show 2 campaigns
 
   useEffect(() => {
+    const fetchCampaigns = async () => {
+      const querySnapshot = await getDocs(collection(db, 'campaigns'));
+      const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setCampaigns(campaignsData);
+      setFilteredCampaigns(campaignsData.slice(0, visibleCampaigns)); // Show initial visible campaigns
+    };
+
     fetchCampaigns();
-  }, []);
-
-  const fetchCampaigns = async () => {
-    try {
-      const campaignsCollection = collection(db, 'campaigns');
-      const campaignSnapshot = await getDocs(campaignsCollection);
-      let campaignList = campaignSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt || { seconds: 0 }
-      }));
-
-      campaignList.sort((a, b) => {
-        const aCreatedAt = a.createdAt ? a.createdAt.seconds : 0;
-        const bCreatedAt = b.createdAt ? b.createdAt.seconds : 0;
-        return bCreatedAt - aCreatedAt;
-      });
-
-      setCampaigns(campaignList);
-      setFilteredCampaigns(campaignList);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching campaigns:', error);
-      setLoading(false);
-    }
-  };
+  }, [visibleCampaigns]);
 
   const handleSearchInputChange = (event) => {
-    setSearchTerm(event.target.value);
-    filterCampaigns(event.target.value);
+    const term = event.target.value;
+    setSearchTerm(term);
+    filterCampaigns(term);
   };
 
   const filterCampaigns = (term) => {
     if (term.trim() === '') {
-      setFilteredCampaigns(campaigns);
+      setFilteredCampaigns(campaigns.slice(0, visibleCampaigns)); // Filter visible campaigns
     } else {
       const filtered = campaigns.filter(campaign =>
         campaign.name.toLowerCase().includes(term.toLowerCase())
       );
-      setFilteredCampaigns(filtered);
+      setFilteredCampaigns(filtered.slice(0, visibleCampaigns)); // Filter and limit visible campaigns
     }
   };
 
-  const loadMoreCampaigns = () => {
-    setVisibleCampaignsCount(prevCount => prevCount + 5);
-  };
+  const handleDownloadCSV = (campaign) => {
+    const csvData = [];
 
-  const handleDownloadExcel = (campaign) => {
-    // Prepare data for Excel
-    const excelData = [
-      ['Name', 'Domain', 'Created At'],
-      [campaign.name || '', campaign.domain || '', campaign.createdAt ? new Date(campaign.createdAt.seconds * 1000).toLocaleString() : 'N/A']
-      // Add more fields as needed
-    ];
+    // Header row
+    csvData.push(['Campaign Name', 'Domain', 'Created At', 'Email', 'Verified', 'Quality', 'Name']);
 
-    // Create a new workbook
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(excelData);
+    // Campaign details row
+    campaign.emails.forEach(email => {
+      csvData.push([
+        campaign.name || '',
+        campaign.domain || '',
+        new Date(campaign.timestamp * 1000).toLocaleString() || 'N/A',
+        email.email || '',
+        email.verified ? 'Yes' : 'No',
+        email.quality || '',
+        email.name || 'N/A'
+      ]);
+    });
 
-    // Add worksheet to workbook
-    XLSX.utils.book_append_sheet(wb, ws, 'Campaign Details');
-
-    // Convert and save to blob
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-    // Create blob object
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
-
-    // Create URL for blob
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-
-    // Create anchor element
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${campaign.name || 'campaign'}_details.xlsx`;
-
-    // Append anchor to body
+    a.setAttribute('download', `${campaign.name || 'campaign'}_details.csv`);
     document.body.appendChild(a);
-
-    // Click anchor to trigger download
     a.click();
-
-    // Remove anchor from body
     document.body.removeChild(a);
-
-    // Revoke URL
     URL.revokeObjectURL(url);
   };
 
-  if (loading) return <div>Loading...</div>;
+  // Styles object
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#ffffff', // Text color
+      padding: '20px', // Padding around the content
+    },
+    card: {
+      width: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent dark background
+      backdropFilter: 'blur(10px)', // Apply backdrop filter for glassmorphism effect
+      borderRadius: '12px', // Rounded corners
+      padding: '20px', // Padding around the content
+      margin: '10px', // Margin for spacing
+      boxShadow: '0 0 10px #59CCB5', // Box shadow with color #59CCB5
+    },
+    input: {
+      padding: '10px',
+      border: '1px solid #666666',
+      borderRadius: '8px',
+      backgroundColor: 'rgba(255, 255, 255, 0.1)', // Semi-transparent white background for input
+      color: '#ffffff', // Text color
+      marginBottom: '10px', // Margin bottom for spacing
+    },
+    list: {
+      marginTop: '20px', // Margin top for spacing
+      listStyleType: 'none', // Remove list styles
+      padding: '0', // Remove padding
+    },
+    listItem: {
+      backgroundColor: 'rgba(0, 0, 0, 0.4)', // Transparent dark background for list items
+      padding: '16px', // Padding for each item
+      marginBottom: '10px', // Margin bottom for spacing
+      borderRadius: '8px', // Rounded corners
+      transition: 'background-color 0.3s ease', // Smooth background color transition
+    },
+    button: {
+      backgroundColor: '#4caf50', // Green background for button
+      color: '#000000', // Black text color
+      padding: '10px 20px', // Padding for button
+      border: 'none', // No border
+      borderRadius: '8px', // Rounded corners
+      cursor: 'pointer', // Pointer cursor
+      transition: 'background-color 0.3s ease', // Smooth background color transition
+    },
+  };
+
+  const loadMoreCampaigns = () => {
+    setVisibleCampaigns(prev => prev + 2); // Increase visible campaigns by 2
+  };
+
+  const loadLessCampaigns = () => {
+    setVisibleCampaigns(2); // Reset visible campaigns to 2
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-screen-xl bg-white rounded-lg shadow-lg p-6 space-y-4">
+    <div style={styles.container}>
+      <div style={styles.card}>
         <h2 className="text-3xl font-bold">Campaigns</h2>
-
         <input
           type="text"
           placeholder="Search campaigns..."
-          className="p-2 border border-gray-300 rounded-lg"
+          className="p-2 border border-gray-600 rounded-lg"
           value={searchTerm}
           onChange={handleSearchInputChange}
+          style={styles.input}
         />
-
-        <ul className="mt-4 space-y-4">
-          {filteredCampaigns.slice(0, visibleCampaignsCount).map((campaign) => (
-            <li key={campaign.id} className="p-4 bg-gray-50 rounded-lg shadow-sm cursor-pointer">
-              <CampaignDetail campaign={campaign} fetchCampaignData={fetchCampaigns} />
+        <ul style={styles.list}>
+          {filteredCampaigns.map((campaign, index) => (
+            <li key={index} style={styles.listItem}  >
+              <CampaignDetail campaign={campaign} campaignId={campaign.id} />
               <button
-                className="bg-green-500 text-black px-4 py-2 rounded-lg mt-2"
-                onClick={() => handleDownloadExcel(campaign)}
+                className="bg-green-500 text-black px-4 py-2 rounded-lg mt-2" 
+                onClick={() => handleDownloadCSV(campaign)}
+                style={styles.button}
               >
-                Download Excel
+                Download CSV
               </button>
             </li>
           ))}
         </ul>
-
-        {visibleCampaignsCount < filteredCampaigns.length && (
+        {visibleCampaigns < campaigns.length ? (
           <button
-            className="bg-blue-500 text-black px-4 py-2 rounded-lg"
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onClick={loadMoreCampaigns}
           >
             Load More
+          </button>
+        ) : (
+          <button
+            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            onClick={loadLessCampaigns}
+          >
+            Load Less
           </button>
         )}
       </div>

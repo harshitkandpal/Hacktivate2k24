@@ -29,34 +29,113 @@ const LoginPage = () => {
     }
   };
 
+  const handleGoToSignUp = () => {
+    navigate('/signup');
+  };
+
+  const styles = {
+    container: {
+      backgroundImage: `url(${process.env.PUBLIC_URL}/images/phishing_cyber_attack.jpg)`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      maxHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    formContainer: {
+      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
+      padding: '1.5rem', // 24px / 16px = 1.5rem
+      margin: '8rem', // 128px / 16px = 8rem
+      borderRadius: '0.5rem', // 8px / 16px = 0.5rem
+      boxShadow: '0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)', // 4px / 16px = 0.25rem, 6px / 16px = 0.375rem
+      backdropFilter: 'blur(0.625rem)', // 10px / 16px = 0.625rem
+      border: '0.0625rem solid rgba(255, 255, 255, 0.18)', // 1px / 16px = 0.0625rem
+    },
+    heading: {
+      fontSize: '1.5rem', // 24px / 16px = 1.5rem
+      fontWeight: 'bold',
+      marginBottom: '1rem', // 16px / 16px = 1rem
+      color: 'white',
+    },
+    label: {
+      display: 'block',
+      color: 'white',
+      marginBottom: '0.5rem', // 8px / 16px = 0.5rem
+    },
+    input: {
+      width: '100%',
+      padding: '0.5rem', // 8px / 16px = 0.5rem
+      border: '0.0625rem solid #4A5568', // 1px / 16px = 0.0625rem
+      backgroundColor: '#1A202C',
+      color: 'white',
+      borderRadius: '0.25rem', // 4px / 16px = 0.25rem
+      marginBottom: '1rem', // 16px / 16px = 1rem
+    },
+    button: {
+      width: '100%',
+      padding: '0.5rem', // 8px / 16px = 0.5rem
+      borderRadius: '0.25rem', // 4px / 16px = 0.25rem
+      marginBottom: '1rem', // 16px / 16px = 1rem
+    },
+    loginButton: {
+      backgroundColor: '#C7C8C8',
+      color: 'white',
+    },
+    googleButton: {
+      backgroundColor: '#59CCB5',
+      color: 'white',
+    },
+    signUpButton: {
+      backgroundColor: '#4A5568',
+      color: 'white',
+    },
+    buttonContainer: {
+      display: 'flex',
+      gap: '1rem', // 16px / 16px = 1rem
+    },
+    buttonFlex: {
+      flex: 1,
+    },
+  };
+  
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div style={styles.container}>
+      <div style={styles.formContainer}>
+        <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Email</label>
+            <label style={styles.label}>Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              style={styles.input}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Password</label>
+            <label style={styles.label}>Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              style={styles.input}
               required
             />
           </div>
-          <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded-md mb-4">Login</button>
-          <button type="button" onClick={handleGoogleSignIn} className="w-full p-2 bg-red-600 text-white rounded-md">Login with Google</button>
+          <button type="submit" style={{ ...styles.button, ...styles.loginButton }}>
+            Login
+          </button>
         </form>
+        <div style={styles.buttonContainer}>
+          <button type="button" onClick={handleGoToSignUp} style={{ ...styles.button, ...styles.signUpButton, ...styles.buttonFlex }}>
+            Go to Sign Up
+          </button>
+          <button type="button" onClick={handleGoogleSignIn} style={{ ...styles.button, ...styles.googleButton, ...styles.buttonFlex }}>
+            Login with Google
+          </button>
+        </div>
       </div>
     </div>
   );

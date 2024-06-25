@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, doc, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { parse } from 'papaparse';
 
@@ -34,7 +34,7 @@ const NewCampaign = () => {
     try {
       setIsLoading(true); // Set loading state to true
   
-      const res = await fetch('data.json');
+      const res = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=5e2eb26be8f54beae4c08e46ec3c181d4d07fb42`);
       const fetchedData = await res.json();
   
       console.log(fetchedData); // Inspect the data structure
