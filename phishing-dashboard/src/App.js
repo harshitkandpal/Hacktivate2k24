@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -21,7 +20,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Or some kind of loading spinner
+    return <div className="h-screen flex items-center justify-center">Loading...</div>;
   }
 
   return (
