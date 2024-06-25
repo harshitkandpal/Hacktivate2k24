@@ -1,83 +1,117 @@
-import React from 'react';
-import { Bar, Pie } from 'react-chartjs-2';
+import React, { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
 
 const CampaignAnalytics = ({ campaign }) => {
-  if (!campaign) return null;
+  const barChartRef = useRef(null);
+  const pieChartRef = useRef(null);
 
-  // Calculate phishing success rate
+  useEffect(() => {
+    renderCharts();
+    return () => {
+      destroyCharts();
+    };
+  }, [campaign]);
+
   const calculateSuccessRate = () => {
-    if (campaign.collectedEmails === 0) return 0;
+    if (!campaign || campaign.collectedEmails === 0) return 0;
     return ((campaign.phishedEmails / campaign.collectedEmails) * 100).toFixed(2);
   };
 
-  // Data object for the Bar chart
-  const barChartData = {
-    labels: ['Collected Emails', 'Open Rate', 'Click-Through Rate', 'Phished Emails'],
-    datasets: [
-      {
-        label: campaign.name,
-        data: [
-          campaign.collectedEmails,
-          campaign.openRate,
-          campaign.clickThroughRate,
-          campaign.phishedEmails,
-        ],
-        backgroundColor: ['#4caf50', '#2196f3', '#ffeb3b', '#f44336'],
-      },
-    ],
+  const renderCharts = () => {
+    renderBarChart();
+    renderPieChart();
   };
 
-  // Data object for the Pie chart with percentages
-  const pieChartData = {
-    labels: ['Success Rate', 'Failure Rate'],
-    datasets: [
-      {
-        label: 'Phishing Success vs Failure',
-        data: [calculateSuccessRate(), 100 - calculateSuccessRate()],
-        backgroundColor: ['#f44336', '#4caf50'],
-      },
-    ],
+  const renderBarChart = () => {
+    if (barChartRef.current) {
+      if (barChartRef.current.chart) {
+        barChartRef.current.chart.destroy();
+      }
+      const ctx = barChartRef.current.getContext('2d');
+      barChartRef.current.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Collected Emails', 'Open Rate', 'Click-Through Rate', 'Phished Emails'],
+          datasets: [
+            {
+              label: campaign.name,
+              data: [
+                campaign.collectedEmails || 0,
+                campaign.openRate || 0,
+                campaign.clickThroughRate || 0,
+                campaign.phishedEmails || 0,
+              ],
+              backgroundColor: ['#4caf50', '#2196f3', '#ffeb3b', '#f44336'],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+            },
+          },
+        },
+      });
+    }
   };
 
-  // Options for the Pie chart
-  const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false, // Disable aspect ratio
-    plugins: {
-      legend: {
-        display: true,
-        position: 'right', // Adjust legend position as needed
-      },
-    },
-    layout: {
-      padding: {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10,
-      },
-    },
+  const renderPieChart = () => {
+    if (pieChartRef.current) {
+      if (pieChartRef.current.chart) {
+        pieChartRef.current.chart.destroy();
+      }
+      const ctx = pieChartRef.current.getContext('2d');
+      pieChartRef.current.chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Success Rate', 'Failure Rate'],
+          datasets: [
+            {
+              label: 'Phishing Success vs Failure',
+              data: [calculateSuccessRate(), 100 - calculateSuccessRate()],
+              backgroundColor: ['#f44336', '#4caf50'],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+            },
+          },
+        },
+      });
+    }
+  };
+
+  const destroyCharts = () => {
+    if (barChartRef.current && barChartRef.current.chart) {
+      barChartRef.current.chart.destroy();
+    }
+    if (pieChartRef.current && pieChartRef.current.chart) {
+      pieChartRef.current.chart.destroy();
+    }
   };
 
   return (
-        <>
-        <h4 className="text-xl font-bold mb-2">Analytics:</h4>
     <div className="mt-4 flex flex-wrap justify-between">
       <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pr-4">
-
-        {/* General Analytics - Bar Chart */}
-        <div className="mb-4" style={{width:'500px', height:"500px"}}>
+        <div className="mb-4" style={{ width: '500px', height: '500px' }}>
           <h5 className="text-lg font-bold mb-2">General Analytics:</h5>
-          <Bar data={barChartData} />
+          <canvas ref={barChartRef}></canvas>
         </div>
       </div>
-
-      {/* Phishing Success vs Failure - Pie Chart */}
       <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pl-4">
         <h4 className="text-xl font-bold mb-2">Phishing Success vs Failure:</h4>
-        <div className="" style={{width:'500px', height:"400px"}}>
-          {/* Ensure width and height are set appropriately */}
-          <Pie data={pieChartData} options={pieChartOptions} width={300} height={300} />
+        <div style={{ width: '500px', height: '400px' }}>
+          <canvas ref={pieChartRef}></canvas>
           <div className="ml-4">
             <h5 className="text-lg font-bold mb-2">Phishing Success Rate:</h5>
             <p className="mb-2">
@@ -90,7 +124,6 @@ const CampaignAnalytics = ({ campaign }) => {
         </div>
       </div>
     </div>
-        </>
   );
 };
 
