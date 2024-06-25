@@ -118,9 +118,68 @@ const CampaignDetail = ({ campaign, campaignId }) => {
     setCurrentPage(nextPage);
   };
 
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#ffffff',
+      padding: '20px',
+    },
+    card: {
+      width: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      backdropFilter: 'blur(10px)',
+      borderRadius: '12px',
+      padding: '20px',
+      margin: '10px',
+      boxShadow: '0 0 10px #59CCB5',
+    },
+    input: {
+      padding: '10px',
+      border: '1px solid #666666',
+      borderRadius: '8px',
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      color: '#ffffff',
+      marginBottom: '10px',
+    },
+    list: {
+      marginTop: '20px',
+      listStyleType: 'none',
+      padding: '0',
+    },
+    listItem: {
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      padding: '16px',
+      marginBottom: '10px',
+      borderRadius: '8px',
+      transition: 'background-color 0.3s ease',
+      boxShadow: 'inset 0 0 6px rgba(255, 255, 255, 0.1)',
+    },
+    button: {
+      backgroundColor: '#4caf50',
+      color: '#000000',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+    },
+    loadButton: {
+      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
+      border: 'none',
+      color: '#ffffff',
+      padding: '10px 20px',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+    },
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-black p-4">
-      <div className="w-full max-w-screen-xl bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
+      <div style={styles.card}>
         <h3 className="text-2xl font-bold mb-4">{campaign.name || "N/A"}</h3>
         <p><strong>Target Domain:</strong> {campaign.domain || "N/A"}</p>
         <p><strong>Created At:</strong> {campaign.timestamp ? new Date(campaign.timestamp * 1000).toLocaleString() : "N/A"}</p>
@@ -134,7 +193,7 @@ const CampaignDetail = ({ campaign, campaignId }) => {
           
           <div className="mt-4 overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 bg-gray-800 text-black">
-            <thead className="bg-gray-700">
+              <thead className="bg-gray-700">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
@@ -228,16 +287,18 @@ const CampaignDetail = ({ campaign, campaignId }) => {
               </tbody>
             </table>
           </div>
-            <div className="mt-4 flex justify-center">
-              {currentPage === 1 ? (
-                <button className="bg-blue-500 text-black px-4 py-2 rounded-lg" onClick={loadMoreEmails}>Load More</button>
-              ) : (
-                <div className="flex space-x-2">
-                  <button className="bg-blue-500 text-black px-4 py-2 rounded-lg" onClick={loadLessEmails}>Load Less</button>
-                  <button className="bg-blue-500 text-black px-4 py-2 rounded-lg" onClick={loadMoreEmails}>Load More</button>
-                </div>
-              )}
-            </div>
+          
+          {/* Load More / Load Less Buttons */}
+          <div className="mt-4 flex justify-center">
+            {currentPage === 1 ? (
+              <button style={styles.loadButton} onClick={loadMoreEmails}>Load More</button>
+            ) : (
+              <div className="flex space-x-2">
+                <button style={styles.loadButton} onClick={loadLessEmails}>Load Less</button>
+                <button style={styles.loadButton} onClick={loadMoreEmails}>Load More</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
