@@ -16,8 +16,8 @@ const FormSection = ({ data, setData, isLoading }) => {
   };
 
   return (
-    <div className="flex flex-row space-x-4">
-      <div>
+    <div className="flex flex-col md:flex-row md:space-x-4">
+      <div className="mb-4 md:w-1/2">
         <label htmlFor="campaignName" className="block text-white">
           Campaign Name:
         </label>
@@ -27,10 +27,11 @@ const FormSection = ({ data, setData, isLoading }) => {
           value={name}
           onChange={handleNameChange}
           className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          style={{ maxWidth: 'calc(100% - 8rem)' }} // Adjusted width here
           required
         />
       </div>
-      <div>
+      <div className="mb-4 md:w-1/2">
         <label htmlFor="targetDomain" className="block text-white">
           Target Domain:
         </label>
@@ -40,17 +41,18 @@ const FormSection = ({ data, setData, isLoading }) => {
           value={domain}
           onChange={handleDomainChange}
           className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          style={{ maxWidth: 'calc(100% - 8rem)' }} // Adjusted width here
           required
         />
       </div>
       <button
         type="button" // Change type to button because it's not a submit button here
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        style={{ height: '50px' }}
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 md:self-end"
+        style={{ height: '50px', minWidth: '9rem' }} // Adjusted minimum width here
         onClick={handleSearchEmails}
         disabled={isLoading}
       >
-        {isLoading ? 'Searching...' : 'Search for Emails'}
+        {isLoading ? 'Searching...' : 'Search Emails'}
       </button>
     </div>
   );

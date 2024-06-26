@@ -6,7 +6,11 @@ const CampaignAnalytics = ({ campaign }) => {
   const pieChartRef = useRef(null);
 
   useEffect(() => {
-    renderCharts();
+    if (campaign) {
+      renderCharts();
+    } else {
+      destroyCharts(); // Ensure charts are destroyed if campaign data becomes unavailable
+    }
     return () => {
       destroyCharts();
     };
@@ -18,12 +22,14 @@ const CampaignAnalytics = ({ campaign }) => {
   };
 
   const renderCharts = () => {
-    renderBarChart();
-    renderPieChart();
+    if (campaign) {
+      renderBarChart();
+      renderPieChart();
+    }
   };
 
   const renderBarChart = () => {
-    if (barChartRef.current) {
+    if (barChartRef.current && campaign) {
       if (barChartRef.current.chart) {
         barChartRef.current.chart.destroy();
       }
@@ -75,7 +81,7 @@ const CampaignAnalytics = ({ campaign }) => {
   };
 
   const renderPieChart = () => {
-    if (pieChartRef.current) {
+    if (pieChartRef.current && campaign) {
       if (pieChartRef.current.chart) {
         pieChartRef.current.chart.destroy();
       }
@@ -117,6 +123,10 @@ const CampaignAnalytics = ({ campaign }) => {
       pieChartRef.current.chart.destroy();
     }
   };
+
+  if (!campaign) {
+    return null; // If campaign data is not available, do not render anything
+  }
 
   return (
     <div className="mt-4 flex justify-between">

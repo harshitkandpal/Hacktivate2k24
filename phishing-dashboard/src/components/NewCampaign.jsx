@@ -6,6 +6,7 @@ import EmailsTable from './EmailsTable';
 import GeneratePhishingMail from './GeneratePhishingMail';
 import UploadCSV from './UploadCSV';
 import AddEmailManually from './AddEmailManually';
+import CampaignAnalytics from './CampaignAnalytics'; // Import CampaignAnalytics component
 
 const NewCampaign = () => {
   const [data, setData] = useState({
@@ -25,7 +26,18 @@ const NewCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmailIndex, setSelectedEmailIndex] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isCampaignRunning, setIsCampaignRunning] = useState(false); // State to manage campaign status
   const navigate = useNavigate();
+
+  // Example implementation of handleSaveProfile
+  const handleSaveProfile = (index, updatedProfile) => {
+    const updatedEmails = [...data.data.emails];
+    updatedEmails[index].profile = updatedProfile;
+    setData((prevData) => ({
+      ...prevData,
+      data: { ...prevData.data, emails: updatedEmails },
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,6 +90,18 @@ const NewCampaign = () => {
     // Implement the logic to send the phishing mail here
   };
 
+  const handleStartCampaign = () => {
+    setIsCampaignRunning(true);
+    // Implement logic to start the phishing campaign
+    console.log('Phishing campaign started');
+  };
+
+  const handleStopCampaign = () => {
+    setIsCampaignRunning(false);
+    // Implement logic to stop the phishing campaign
+    console.log('Phishing campaign stopped');
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <h2 className="text-3xl font-bold text-center">New Campaign</h2>
@@ -90,16 +114,43 @@ const NewCampaign = () => {
             selectedEmailIndex={selectedEmailIndex}
             onEmailClick={handleEmailClick}
             isEditMode={isEditMode}
+            onSaveProfile={handleSaveProfile}
             onSaveEmail={handleSaveEmail}
           />
           <UploadCSV onAddEmails={handleAddEmails} />
           <AddEmailManually onAddEmails={handleAddEmails} />
           <GeneratePhishingMail onSendMail={handleSendMail} />
+          {!isCampaignRunning ? (
+            <button
+              type="button"
+              onClick={handleStartCampaign}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
+            >
+              Start Campaign
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleStopCampaign}
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
+            >
+              Stop Campaign
+            </button>
+          )}
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
-            Create Campaign
+            Save Campaign
           </button>
         </form>
       </div>
+
+      {/* Render CampaignAnalytics component if campaign is running or stopped */}
+      {isCampaignRunning || !isLoading ? (
+        <CampaignAnalytics campaign={data} />
+      ) : (
+        <div className="text-center mt-8 text-gray-400">
+          Analytics will appear here once the campaign is running or stopped.
+        </div>
+      )}
     </div>
   );
 };
