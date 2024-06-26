@@ -20,7 +20,7 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
   const handleVerifyEmail = async (email) => {
     try {
       const response = await fetch(
-        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=apikey`
+        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=5e2eb26be8f54beae4c08e46ec3c181d4d07fb42`
       );
 
       
@@ -29,7 +29,7 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
       console.log(data); // For debugging purposes (optional)
       console.log(data.data.status);
   
-      if (data.data.status === 'accept_all') {
+      if (data.data.status === 'accept_all' || data.data.status === 'valid') {
         setVerifiedEmails([...verifiedEmails, email]);
         setEmailVerificationStatus(new Map(emailVerificationStatus).set(email, true));
       } else {

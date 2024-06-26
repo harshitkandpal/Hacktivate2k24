@@ -78,6 +78,13 @@ const NewCampaign = () => {
     setIsEditMode(false);
   };
 
+  const handleuploadcsv = (newEmails) => {
+    setData((prevData) => ({
+      ...prevData,
+      data: { ...prevData.data, emails: [...prevData.data.emails, ...newEmails] },
+    }));
+  };
+
   const handleAddEmails = (newEmail) => {
     setData((prevData) => ({
       ...prevData,
@@ -120,7 +127,7 @@ const NewCampaign = () => {
             onSaveProfile={handleSaveProfile}
             onSaveEmail={handleSaveEmail}
           />
-          <UploadCSV onAddEmails={handleAddEmails} />
+          <UploadCSV onAddEmails={handleuploadcsv} />
           <AddEmailManually onAddEmails={handleAddEmails} />
           <GeneratePhishingMail onSendMail={handleSendMail} />
           {!isCampaignRunning ? (

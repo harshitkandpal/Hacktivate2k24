@@ -11,7 +11,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
   const handleSave = () => {
     onSave(editedEmail);
   };
-
+  
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
