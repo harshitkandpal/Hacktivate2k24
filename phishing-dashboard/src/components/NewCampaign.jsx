@@ -78,10 +78,13 @@ const NewCampaign = () => {
     setIsEditMode(false);
   };
 
-  const handleAddEmails = (newEmails) => {
+  const handleAddEmails = (newEmail) => {
     setData((prevData) => ({
       ...prevData,
-      data: { ...prevData.data, emails: [...prevData.data.emails, ...newEmails] },
+      data: {
+        ...prevData.data,
+        emails: [...prevData.data.emails, newEmail],
+      },
     }));
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddEmailManually = ({ onAddEmail }) => {
+const AddEmailManually = ({ onAddEmails }) => {
   const [email, setEmail] = useState('');
   const [profile, setProfile] = useState({
     name: '',
@@ -9,14 +9,15 @@ const AddEmailManually = ({ onAddEmail }) => {
     linkedin: '',
     twitter: '',
     phone: '',
-  });
+   });
 
   const handleAddEmail = () => {
+    console.log(onAddEmails);
     const newEmail = {
       value: email,
-      profile: { ...profile },
+      profile: profile ,
     };
-    onAddEmail(newEmail);
+    onAddEmails(newEmail);
     setEmail('');
     setProfile({
       name: '',
@@ -38,14 +39,14 @@ const AddEmailManually = ({ onAddEmail }) => {
         onChange={(e) => setEmail(e.target.value)}
         className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
       />
-      <label className="block text-white mb-2">Profile:</label>
+      {/* <label className="block text-white mb-2">Profile:</label>
       <input
         type="text"
         placeholder="Name"
         value={profile.name}
         onChange={(e) => setProfile({ ...profile, name: e.target.value })}
         className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
-      />
+      /> */}
       {/* Add other profile inputs */}
       <button
         type="button"

@@ -12,6 +12,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
     onSave(editedEmail);
   };
 
+
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
       <div>
@@ -96,9 +97,16 @@ const EditableEmailProfile = ({ email, onSave }) => {
       <button
         className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
         onClick={handleSave}
+        style={{marginRight:'2px'}}
       >
         Save
       </button>
+      {/* <button
+        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+        onClick={handleSave}
+      >
+        Delete
+      </button> */}
     </div>
   );
 };

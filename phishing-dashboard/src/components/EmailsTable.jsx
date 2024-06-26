@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EditableEmailProfile from './EditableEmailProfile';
 
 const EmailsTable = ({ emails, onSaveProfile }) => {
   const [expandedEmailIndex, setExpandedEmailIndex] = useState(-1);
   const [verifiedEmails, setVerifiedEmails] = useState([]);
+  const [emailVerificationStatus, setEmailVerificationStatus] = useState(
+    new Map() // Map for email verification status (true/false)
+  );
 
   const toggleExpand = (index) => {
     setExpandedEmailIndex(index === expandedEmailIndex ? -1 : index);
@@ -14,10 +17,41 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
     setExpandedEmailIndex(-1); // Close the expanded view after saving
   };
 
-  const handleVerifyAll = () => {
-    const allEmailValues = emails.map(email => email.value);
-    setVerifiedEmails(allEmailValues);
+  const handleVerifyEmail = async (email) => {
+    try {
+      const response = await fetch(
+        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=apikey`
+      );
+
+      
+  
+      const data = await response.json();
+      console.log(data); // For debugging purposes (optional)
+      console.log(data.data.status);
+  
+      if (data.data.status === 'accept_all') {
+        setVerifiedEmails([...verifiedEmails, email]);
+        setEmailVerificationStatus(new Map(emailVerificationStatus).set(email, true));
+      } else {
+        setEmailVerificationStatus(new Map(emailVerificationStatus).set(email, false));
+      }
+    } catch (error) {
+      console.error('Email verification error:', error);
+      // Handle errors appropriately (e.g., display an error message to the user)
+    }
   };
+  
+
+  const handleVerifyAll = async () => {
+    for (const email of emails) {
+      await handleVerifyEmail(email.value);
+    }
+  };
+
+  useEffect(() => {
+    // Verify all emails upon initial render
+    handleVerifyAll();
+  }, []);
 
   if (!emails || emails.length === 0) {
     return <div>No emails to display</div>;
@@ -37,22 +71,30 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
       <table className="min-w-full divide-y divide-gray-600">
         <thead>
           <tr className="bg-gray-800">
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              Email
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-600">
           {emails.map((email, index) => (
             <React.Fragment key={index}>
               <tr className="bg-gray-900">
-                <td
+              <td
                   className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300 cursor-pointer"
                   onClick={() => toggleExpand(index)}
                 >
                   {email.value}
-                  {verifiedEmails.includes(email.value) && (
+                  {emailVerificationStatus.has(email.value) &&
+                    emailVerificationStatus.get(email.value) ? (
                     <span className="ml-2 text-green-500 font-semibold">Verified</span>
-                  )}
+                  ) : emailVerificationStatus.has(email.value) &&
+                    !emailVerificationStatus.get(email.value) ? (
+                    <span className="ml-2 text-red-500 font-semibold">Invalid</span>
+                  ) : null}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {expandedEmailIndex === index && (
@@ -72,3 +114,5 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
 };
 
 export default EmailsTable;
+
+

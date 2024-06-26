@@ -6,15 +6,12 @@ const UploadCSV = ({ onAddEmails }) => {
     const file = event.target.files[0];
     if (file) {
       Papa.parse(file, {
-        header: true,
+        // header: true,
         complete: (results) => {
+          console.log("Parsed Data:", results.data);
           const emails = results.data.map((row) => ({
-            value: row.email,
-            profile: {
-              first_name: row.first_name,
-              last_name: row.last_name,
-              // Add other relevant fields here
-            },
+            value: row,
+            
           }));
           onAddEmails(emails);
         },
