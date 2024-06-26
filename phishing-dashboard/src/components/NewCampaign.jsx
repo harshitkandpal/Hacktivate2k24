@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { parse } from 'papaparse';
 
+
+
 const NewCampaign = () => {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
   const [csvFile, setCsvFile] = useState(null);
-  const [targets, setTargets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [formData, setFormData] = useState({
+    domain: '',
+    organization: '',
+    industry: '',
+    twitter: '',
+    facebook: '',
+    linkedin: '',
+    instagram:'',
+    youtube:'',
+    country:'',
+    company_type:'',
+    description:''
+    
+  });
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Display confirmation alert
-    if (!window.confirm('Are you sure you want to create this campaign?')) {
-      return; // Cancel submission if user clicks Cancel in the confirmation dialog
-    }
-
+  const fetchEmails = async () => {
     try {
       setIsLoading(true); // Set loading state to true
   
@@ -36,154 +48,178 @@ const NewCampaign = () => {
   
       setIsLoading(false); // Set loading state to false after fetching
     } catch (error) {
-      console.error('Error adding campaign:', error);
-      alert('Error adding campaign');
+      console.error(error);
+      setIsLoading(false); // Set loading state to false even in case of error
     }
   };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setCsvFile(file);
-
-    // Parse CSV file on change
-    parse(file, {
-      complete: (result) => {
-        if (result.data && result.data.length > 0) {
-          const csvTargets = result.data.slice(1); // Skip header row
-          const formattedTargets = csvTargets.map((target) => ({
-            email: target[3], // Adjust index based on your CSV structure
-            name: target[6] || null, // Adjust index based on your CSV structure
-            verified: target[4] === 'true', // Example of boolean parsing
-            quality: parseInt(target[5]) || 0, // Example of integer parsing
-            saved: false // Default value for saved
-          }));
-          setTargets(formattedTargets);
-        }
-      },
-      error: (error) => {
-        console.error('CSV parsing error:', error);
-        alert('CSV parsing error');
-      }
-    });
-  };
-
-  const styles = {
-    container: {
-      minHeight: '95vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#ffffff', // Text color
-      padding: '20px', // Padding around the content
-    },
-    formContainer: {
-      width: '100%',
-      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      padding: '20px', // Padding around the content
-      margin: '10px',
-      borderRadius: '0.5rem', // 8px / 16px = 0.5rem
-      boxShadow: '0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)', // 4px / 16px = 0.25rem, 6px / 16px = 0.375rem
-      backdropFilter: 'blur(0.625rem)', // 10px / 16px = 0.625rem
-      border: '0.0625rem solid rgba(255, 255, 255, 0.18)', // 1px / 16px = 0.0625rem
-    },
-    heading: {
-      fontSize: '1.5rem', // 24px / 16px = 1.5rem
-      fontWeight: 'bold',
-      marginBottom: '1rem', // 16px / 16px = 1rem
-      color: 'white',
-    },
-    label: {
-      display: 'block',
-      color: 'white',
-      marginBottom: '0.5rem', // 8px / 16px = 0.5rem
-    },
-    input: {
-      width: '100%',
-      padding: '0.5rem', // 8px / 16px = 0.5rem
-      border: '0.0625rem solid #4A5568', // 1px / 16px = 0.0625rem
-      backgroundColor: '#1A202C',
-      color: 'white',
-      borderRadius: '0.25rem', // 4px / 16px = 0.25rem
-      marginBottom: '1rem', // 16px / 16px = 1rem
-    },
-    button: {
-      width: '100%',
-      padding: '10px',
-      backgroundColor: '#59CCB5',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-    },
-    buttonHover: {
-      backgroundColor: '#49b09b',
-    },
-  };
+  
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center  p-4" style={styles.container}>
-      <div className="w-full max-w-lg  rounded-lg shadow-lg p-6 space-y-4">
-        <h2 className="text-3xl font-bold text-center" >New Campaign</h2>
-        <form onSubmit={handleSubmit} className="space-y-4" style={styles.formContainer}>
-          <div>
-            <label htmlFor="campaignName" className="block" style={styles.label}>Campaign Name:</label>
-            <input
-              id="campaignName"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={styles.input}
-              required
-            />
+    <div className="min-h-screen   bg-gray-100 p-4">
+      <h2 className="text-3xl font-bold text-center">New Campaign</h2>
+      <div className="bg-white flex flex-row rounded-lg shadow-lg p-6 space-y-4" style={{  width: '1400px'}}>
+        <form className="space-y-4 ">
+          <div className="flex flex-row">
+            <div>
+              <label htmlFor="campaignName" className="block text-gray-700">
+                Campaign Name:
+              </label>
+              <input
+                id="campaignName"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="targetDomain" className="block text-gray-700">
+                Target Domain:
+              </label>
+              <input
+                id="targetDomain"
+                type="text"
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required={!csvFile} // Domain input is required if no CSV file is uploaded
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={{ height: '50px' }}
+              onClick={fetchEmails}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Searching...' : 'Search for Emails'}
+            </button>
           </div>
-          <div>
-            <label htmlFor="targetDomain" className="block" style={styles.label}>Target Domain:</label>
-            <input
-              id="targetDomain"
-              type="text"
-              value={domain}
-              onChange={(e) => setDomain(e.target.value)}
-              style={styles.input}
-              required={!csvFile}
-            />
-          </div>
-          <div>
-            <label htmlFor="csvFile" className="block" style={styles.label}>Upload CSV File:</label>
-            <input
-              id="csvFile"
-              type="file"
-              accept=".csv"
-              onChange={handleFileChange}
-              style={styles.input}
-            />
-            <small className="block" style={styles.label}>Upload a CSV file with targets.</small>
-          </div>
-          <div>
-            {targets.length > 0 && (
-              <div>
-                <h3 className="text-lg font-bold">Uploaded Targets:</h3>
-                <ul className="list-disc list-inside">
-                  {targets.map((target, index) => (
-                    <li key={index}>
-                      {`${target.email}, ${target.name}`}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-          <button
-            type="submit"
-            style={styles.button}
-            onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-            onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
-          >
-            Create Campaign
-          </button>
         </form>
+      </div>
+      <div>
+        <div className="flex flex-row  " style={{ flexWrap: 'wrap', whiteSpace: 'nowrap' }}>
+        <form className="flex flex-row  " style={{ flexWrap: 'wrap', whiteSpace: 'nowrap' }}>
+          <h2>Company Profile:</h2>
+          <div className="flex flex-row  " style={{ flexWrap: 'wrap', whiteSpace: 'nowrap'}}>
+          <label htmlFor="domain">Domain:</label>
+          <input
+            type="text"
+            id="domain"
+            value={data.domain}
+            style={{ width: 'fit-content'}}
+            onChange={(event) => setFormData({ ...formData, domain: event.target.value })}
+          />
+          <label htmlFor="organization">Organization:</label>
+          <input
+            type="text"
+            id="organization"
+            value={data.organization}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, organization: event.target.value })}
+          />
+          <label htmlFor="industry">Industry:</label>
+          <input
+            type="text"
+            id="industry"
+            value={data.industry}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, industry: event.target.value })}
+          />
+          <label htmlFor="twitter">Twitter:</label>
+          <input
+            type="text"
+            id="twitter"
+            value={data.twitter}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, twitter: event.target.value })}
+          />
+          <label htmlFor="facebook">Facebook:</label>
+          <input
+            type="text"
+            id="facebook"
+            value={data.facebook}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, facebook: event.target.value })}
+          />
+          <label htmlFor="linkedin">Linkedin:</label>
+          <input
+            type="text"
+            id="linkedin"
+            value={data.linkedin}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, linkedin: event.target.value })}
+          />
+          <label htmlFor="instagram">Instagram:</label>
+          <input
+            type="text"
+            id="instagram"
+            value={data.instagram}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, instagram: event.target.value })}
+          />
+          <label htmlFor="youtube">Youtube:</label>
+          <input
+            type="text"
+            id="youtube"
+            value={data.youtube}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, youtube: event.target.value })}
+          />
+          <label htmlFor="country">Country:</label>
+          <input
+            type="text"
+            id="country"
+            value={data.country}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, country: event.target.value })}
+          />
+          
+          <label htmlFor="company_type">Company Type:</label>
+          <input
+            type="text"
+            id="company_type"
+            value={data.company_type}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, company_type: event.target.value })}
+          />
+          <label htmlFor="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            value={data.description}
+            style={{ width: 'fit-content' }}
+            onChange={(event) => setFormData({ ...formData, description: event.target.value })}
+          />
+          </div>
+
+          
+          <div style={{ marginTop:'20px'}}>
+          <h1 style={{ marginBottom:'5px'}}>Emails with profiles:</h1>
+        
+          
+          
+    
+          </div>
+          
+        </form>
+        <div className='flex flex-column'>
+        {data.emails && data.emails.length > 0 && (
+          <div > {/* Change to flex-column */}
+            {data.emails.map((email) => (
+              <div key={email.value} className="email-container"> {/* Add a key and container class */}
+                {/* Display email details */}
+                <h1>{email.value}</h1>
+                {/* {email.first_name && <p>First Name: {email.first_name}</p>}
+                {email.last_name && <p>Last Name: {email.last_name}</p>} */}
+                {/* ... add similar checks for other attributes */}
+              </div>
+            ))}
+          </div>
+        )}
+          </div>
+        </div>
       </div>
     </div>
   );
