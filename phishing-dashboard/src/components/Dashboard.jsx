@@ -105,7 +105,7 @@ const Dashboard = () => {
     <div style={styles.container} className="min-h-screen flex flex-col items-center justify-center">
       <div className="w-full rounded-lg space-y-4">
         <div className="flex justify-between items-center w-full mb-4 px-4" style={styles.dashContainer}>
-          <h2 className="text-3xl font-bold">Dashboard</h2>
+          <h2 className="text-5xl font-bold">Phishing</h2>
           <button 
           style={styles.logout_btn}
           onMouseEnter={(e) => e.target.style.color = '#797C7C'}
