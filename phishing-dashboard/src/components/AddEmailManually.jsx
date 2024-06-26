@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 
-const AddEmailManually = ({ onAddEmails }) => {
+const AddEmailManually = ({ onAddEmail }) => {
   const [email, setEmail] = useState('');
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    name: '',
+    position: '',
+    company: '',
+    linkedin: '',
+    twitter: '',
+    phone: '',
+  });
 
   const handleAddEmail = () => {
     const newEmail = {
       value: email,
-      profile,
+      profile: { ...profile },
     };
-    onAddEmails([newEmail]);
+    onAddEmail(newEmail);
     setEmail('');
-    setProfile({});
+    setProfile({
+      name: '',
+      position: '',
+      company: '',
+      linkedin: '',
+      twitter: '',
+      phone: '',
+    });
   };
 
   return (
@@ -24,7 +38,15 @@ const AddEmailManually = ({ onAddEmails }) => {
         onChange={(e) => setEmail(e.target.value)}
         className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
       />
-      {/* Add inputs for other profile details */}
+      <label className="block text-white mb-2">Profile:</label>
+      <input
+        type="text"
+        placeholder="Name"
+        value={profile.name}
+        onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+        className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+      />
+      {/* Add other profile inputs */}
       <button
         type="button"
         onClick={handleAddEmail}

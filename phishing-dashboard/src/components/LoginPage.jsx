@@ -38,14 +38,15 @@ const LoginPage = () => {
       backgroundImage: `url(${process.env.PUBLIC_URL}/images/phishing_cyber_attack.jpg)`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      maxHeight: '100vh',
+      minHeight: '100vh',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
     },
     formContainer: {
       background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
       padding: '1.5rem', // 24px / 16px = 1.5rem
-      margin: '8rem', // 128px / 16px = 8rem
+      margin: '4rem', // 128px / 16px = 8rem
       borderRadius: '0.5rem', // 8px / 16px = 0.5rem
       boxShadow: '0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)', // 4px / 16px = 0.25rem, 6px / 16px = 0.375rem
       backdropFilter: 'blur(0.625rem)', // 10px / 16px = 0.625rem

@@ -8,13 +8,6 @@ const EditableEmailProfile = ({ email, onSave }) => {
     setEditedEmail({ ...editedEmail, [name]: value });
   };
 
-  const handleSourceChange = (index, event) => {
-    const { value } = event.target;
-    const updatedSources = [...editedEmail.sources];
-    updatedSources[index].domain = value;
-    setEditedEmail({ ...editedEmail, sources: updatedSources });
-  };
-
   const handleSave = () => {
     onSave(editedEmail);
   };
@@ -28,32 +21,19 @@ const EditableEmailProfile = ({ email, onSave }) => {
           name="value"
           value={editedEmail.value}
           onChange={handleChange}
-          className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
+          className="w-full px-3 py-2 mb-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
         />
       </div>
       <div className="mt-4">
-        <label className="block text-white">Sources:</label>
-        {editedEmail.sources.map((source, index) => (
-          <div key={index} className="mt-2">
-            <input
-              type="text"
-              value={source.domain}
-              onChange={(event) => handleSourceChange(index, event)}
-              className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
-            />
-          </div>
-        ))}
-      </div>
-      <div className="mt-4">
         <label className="block text-white">Additional Info:</label>
-        <div className="mt-2 text-white">
+        <div className="mt-2 text-white grid grid-cols-1 gap-y-2">
           <input
             type="text"
             name="first_name"
             value={editedEmail.first_name || ''}
             onChange={handleChange}
             placeholder="First Name"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -61,7 +41,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.last_name || ''}
             onChange={handleChange}
             placeholder="Last Name"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -69,7 +49,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.position || ''}
             onChange={handleChange}
             placeholder="Position"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -77,7 +57,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.seniority || ''}
             onChange={handleChange}
             placeholder="Seniority"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -85,7 +65,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.department || ''}
             onChange={handleChange}
             placeholder="Department"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -93,7 +73,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.linkedin || ''}
             onChange={handleChange}
             placeholder="LinkedIn"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -101,7 +81,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.twitter || ''}
             onChange={handleChange}
             placeholder="Twitter"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
             type="text"
@@ -109,7 +89,7 @@ const EditableEmailProfile = ({ email, onSave }) => {
             value={editedEmail.phone_number || ''}
             onChange={handleChange}
             placeholder="Phone Number"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg mb-2"
+            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
         </div>
       </div>
