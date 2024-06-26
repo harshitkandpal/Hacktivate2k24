@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         document.getElementById('visitorCount').textContent = visitorCount;
+        alert('You have been hacked FOOL!');
     });
 
     document.getElementById('resetBtn').addEventListener('click', async () => {
