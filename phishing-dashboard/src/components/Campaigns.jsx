@@ -117,6 +117,19 @@ const Campaigns = () => {
       cursor: 'pointer', // Pointer cursor
       transition: 'background-color 0.3s ease', // Smooth background color transition
     },
+    loadButton: {
+      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
+      border: 'none',
+      color: '#ffffff',
+      padding: '10px 20px',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+      '&:hover': {
+        background: 'linear-gradient(45deg, rgba(89, 204, 181, 0.2) 10%, rgba(6, 8, 8, 0.9) 90%)',
+        transition: 'background-color 0.3s ease',
+      }
+    },
   };
 
   const loadMoreCampaigns = () => {
@@ -130,7 +143,7 @@ const Campaigns = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 className="text-3xl font-bold">Campaigns</h2>
+        <h2 className="text-4xl font-bold p-4">Campaigns</h2>
         <input
           type="text"
           placeholder="Search campaigns..."
@@ -144,9 +157,9 @@ const Campaigns = () => {
             <li key={index} style={styles.listItem}  >
               <CampaignDetail campaign={campaign} campaignId={campaign.id} />
               <button
-                className="bg-green-500 text-black px-4 py-2 rounded-lg mt-2" 
+                className=" px-4 py-2 rounded-lg mt-2" 
                 onClick={() => handleDownloadCSV(campaign)}
-                style={styles.button}
+                style={styles.loadButton}
               >
                 Download CSV
               </button>
@@ -155,7 +168,7 @@ const Campaigns = () => {
         </ul>
         {visibleCampaigns < campaigns.length ? (
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
             onClick={loadMoreCampaigns}
           >
             Load More
