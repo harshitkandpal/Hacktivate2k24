@@ -1,0 +1,57 @@
+import React, { useState } from 'react';
+
+const EditableEmailProfile = ({ email, onSave }) => {
+  const [editedEmail, setEditedEmail] = useState({ ...email });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEditedEmail({ ...editedEmail, [name]: value });
+  };
+
+  const handleSourceChange = (index, event) => {
+    const { value } = event.target;
+    const updatedSources = [...editedEmail.sources];
+    updatedSources[index].domain = value;
+    setEditedEmail({ ...editedEmail, sources: updatedSources });
+  };
+
+  const handleSave = () => {
+    onSave(editedEmail);
+  };
+
+  return (
+    <div className="bg-gray-800 p-4 rounded-lg">
+      <div>
+        <label className="block text-white">Email:</label>
+        <input
+          type="text"
+          name="value"
+          value={editedEmail.value}
+          onChange={handleChange}
+          className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
+        />
+      </div>
+      <div className="mt-4">
+        <label className="block text-white">Sources:</label>
+        {editedEmail.sources.map((source, index) => (
+          <div key={index} className="mt-2">
+            <input
+              type="text"
+              value={source.domain}
+              onChange={(event) => handleSourceChange(index, event)}
+              className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
+            />
+          </div>
+        ))}
+      </div>
+      <button
+        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+        onClick={handleSave}
+      >
+        Save
+      </button>
+    </div>
+  );
+};
+
+export default EditableEmailProfile;

@@ -63,11 +63,10 @@ const Dashboard = () => {
     setView('profile');
   };
 
-
   const styles = {
-    container:{
-      background:'#060808',
-      color:'#fff'
+    container: {
+      background: '#060808',
+      color: '#fff'
     },
     dashContainer: {
       background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
@@ -75,7 +74,6 @@ const Dashboard = () => {
       position: 'relative', // Ensure relative positioning for pseudo-element
     },
     curveBorder: {
-      
       position: 'absolute',
       left: 0,
       bottom: '-10px', // Adjust this value to control the curve's depth
@@ -87,46 +85,65 @@ const Dashboard = () => {
       zIndex: 1,
       boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.1)', // Optional: Add shadow for depth
     },
-    logout_btn:{
-      color:'#59CCB5'
+    logout_btn: {
+      color: '#59CCB5'
     },
     btn: {
       backgroundImage: 'linear-gradient(to right, #59CCB5, #0F4364)',
       backgroundSize: '200% auto',
       transition: 'background-position 0.5s ease',
+      color: 'white',
       '&:hover': {
         backgroundPosition: 'right center',
       },
     },
+    buttonContainer: {
+      display: 'flex',
+      gap: '1rem',
+    },
   }
-
 
   return (
     <div style={styles.container} className="min-h-screen flex flex-col items-center justify-center">
       <div className="w-full rounded-lg space-y-4">
         <div className="flex justify-between items-center w-full mb-4 px-4" style={styles.dashContainer}>
-          <h2 className="text-5xl font-bold">Phishing</h2>
-          <button 
-          style={styles.logout_btn}
-          onMouseEnter={(e) => e.target.style.color = '#797C7C'}
-          onMouseLeave={(e) => e.target.style.color = '#59CCB5'}
-          onClick={handleLogout} 
-          className="text-m font-medium px-4 py-2 rounded-md">Logout</button>
+          <h2 className="text-5xl font-bold">Dashboard</h2>
+          <div style={styles.buttonContainer}>
+            <button 
+              style={styles.logout_btn}
+              onMouseEnter={(e) => e.target.style.color = '#797C7C'}
+              onMouseLeave={(e) => e.target.style.color = '#59CCB5'}
+              onClick={handleLogout} 
+              className="text-m font-medium px-4 py-2 rounded-md">Logout</button>
+            {view === 'list' && (
+              <button 
+                onClick={() => setView('create')} 
+                className="text-sm font-medium px-4 py-2 rounded-md" 
+                style={styles.btn}>
+                New Campaign
+              </button>
+            )}
+            {view !== 'list' && (
+              <button 
+                onClick={() => setView('list')} 
+                className="text-sm font-medium px-4 py-2 rounded-md" 
+                style={styles.btn}>
+                Back to Campaigns
+              </button>
+            )}
+          </div>
           <div style={styles.curveBorder}></div>
         </div>
         {view === 'list' ? (
           <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
-            <button onClick={() => setView('create')} className="text-sm font-medium text-white px-4 py-2 rounded-md" style={styles.btn}>New Campaign</button>
             <Campaigns campaigns={campaigns} onProfileEmail={handleProfileEmail} />
           </div>
         ) : view === 'profile' ? (
           <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
-            <button onClick={() => setView('list')} className="text-sm font-medium text-white px-4 py-2 rounded-md" style={styles.btn}>Back to Campaigns</button>
             <Profile campaignId={selectedCampaign} email={selectedEmail} />
           </div>
         ) : (
-          <div className="px-4"style={styles.dashContainer}> {/* Reduced padding */}
-            <button onClick={() => setView('list')} className="text-sm font-medium text-white px-4 py-2 rounded-md" style={styles.btn}>Back to Campaigns</button>
+          <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
             <NewCampaign onCreateCampaign={handleCreateCampaign} />
           </div>
         )}
