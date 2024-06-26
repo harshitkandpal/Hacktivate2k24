@@ -45,7 +45,7 @@ const LoginPage = () => {
     },
     formContainer: {
       background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      padding: '1.5rem', // 24px / 16px = 1.5rem
+      padding: '1.8rem', // 24px / 16px = 1.5rem
       margin: '4rem', // 128px / 16px = 8rem
       borderRadius: '0.5rem', // 8px / 16px = 0.5rem
       boxShadow: '0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)', // 4px / 16px = 0.25rem, 6px / 16px = 0.375rem
@@ -56,7 +56,6 @@ const LoginPage = () => {
       fontSize: '3rem', // 24px / 16px = 1.5rem
       fontWeight: 'bold',
       marginBottom: '1rem', // 16px / 16px = 1rem
-      color: 'white',
     },
     label: {
       display: 'block',
@@ -97,11 +96,22 @@ const LoginPage = () => {
     buttonFlex: {
       flex: 1,
     },
+    welcomeMessage: {
+      position: 'absolute',
+      top: '0.5rem',
+      left: '35%',
+      transform: 'translateX(-50%)',
+      fontSize: '4rem',
+      fontWeight: 'bold',
+      zIndex: 10,
+      letterSpacing: '-0.025em', // Reduce letter spacing
+      textShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.5)', // Add text shadow
+    },
   };
-  
 
   return (
     <div style={styles.container}>
+      <div style={styles.welcomeMessage}><h1>Unlock the secrets of phishing attacks</h1></div>
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleSubmit}>

@@ -49,10 +49,9 @@ const SignupPage = () => {
       border: '0.0625rem solid rgba(255, 255, 255, 0.18)', // 1px / 16px = 0.0625rem
     },
     heading: {
-      fontSize: '1.5rem', // 24px / 16px = 1.5rem
+      fontSize: '3rem', // 24px / 16px = 1.5rem
       fontWeight: 'bold',
       marginBottom: '1rem', // 16px / 16px = 1rem
-      color: 'white',
     },
     label: {
       display: 'block',
@@ -89,10 +88,22 @@ const SignupPage = () => {
     buttonFlex: {
       flex: 1,
     },
+    welcomeMessage: {
+      position: 'absolute',
+      top: '0.5rem',
+      left: '35%',
+      transform: 'translateX(-50%)',
+      fontSize: '4rem',
+      fontWeight: 'bold',
+      zIndex: 10,
+      letterSpacing: '-0.025em', // Reduce letter spacing
+      textShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.5)', // Add text shadow
+    },
   };
 
   return (
     <div style={styles.container}>
+      <div style={styles.welcomeMessage}><h1>Unlock the secrets of phishing attacks</h1></div>
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Sign Up</h2>
         <form onSubmit={handleSubmit}>

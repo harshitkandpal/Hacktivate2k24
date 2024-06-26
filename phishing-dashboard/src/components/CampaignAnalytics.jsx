@@ -129,16 +129,16 @@ const CampaignAnalytics = ({ campaign }) => {
   }
 
   return (
-    <div className="mt-4 flex justify-between">
+    <div className="mt-4 flex justify-between bg-opacity-25 backdrop-filter backdrop-blur-lg">
       <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pr-4">
-        <div className="mb-4" style={{ width: '500px', height: '500px', backgroundColor: 'rgba(0, 0, 0, 0.6)', borderRadius: '12px' }}>
+        <div className="mb-4" style={{ width: '500px', height: '500px', borderRadius: '12px' }}>
           <h5 className="text-lg font-bold mb-2 text-white">General Analytics:</h5>
           <canvas ref={barChartRef}></canvas>
         </div>
       </div>
       <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pl-4">
         <h4 className="text-xl font-bold mb-2 text-white">Phishing Success vs Failure:</h4>
-        <div style={{ width: '500px', height: '400px', backgroundColor: 'rgba(0, 0, 0, 0.6)', borderRadius: '12px' }}>
+        <div style={{ width: '500px', height: '400px', borderRadius: '12px' }}>
           <canvas ref={pieChartRef}></canvas>
           <div className="ml-4">
             <h5 className="text-lg font-bold mb-2 text-white">Phishing Success Rate:</h5>

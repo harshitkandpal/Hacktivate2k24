@@ -103,8 +103,8 @@ const NewCampaign = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      <h2 className="text-3xl font-bold text-center">New Campaign</h2>
+    <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900  text-white p-4 rounded-2xl ">
+      <h2 className="text-4xl font-bold text-center p-5">New Campaign</h2>
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <FormSection data={data} setData={setData} isLoading={isLoading} />

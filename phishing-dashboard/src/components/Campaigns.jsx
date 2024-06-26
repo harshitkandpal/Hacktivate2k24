@@ -81,8 +81,6 @@ const Campaigns = () => {
     },
     card: {
       width: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent dark background
-      backdropFilter: 'blur(10px)', // Apply backdrop filter for glassmorphism effect
       borderRadius: '12px', // Rounded corners
       padding: '20px', // Padding around the content
       margin: '10px', // Margin for spacing
@@ -102,7 +100,6 @@ const Campaigns = () => {
       padding: '0', // Remove padding
     },
     listItem: {
-      backgroundColor: 'rgba(0, 0, 0, 0.4)', // Transparent dark background for list items
       padding: '16px', // Padding for each item
       marginBottom: '10px', // Margin bottom for spacing
       borderRadius: '8px', // Rounded corners
@@ -141,8 +138,8 @@ const Campaigns = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
+    <div style={styles.container} className={"bg-opacity-25 backdrop-filter backdrop-blur-lg"}>
+      <div style={styles.card} className={"bg-opacity-25 backdrop-filter backdrop-blur-lg"}>
         <h2 className="text-4xl font-bold p-4">Campaigns</h2>
         <input
           type="text"

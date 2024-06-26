@@ -129,8 +129,6 @@ const CampaignDetail = ({ campaign, campaignId }) => {
     },
     card: {
       width: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      backdropFilter: 'blur(10px)',
       borderRadius: '12px',
       padding: '20px',
       margin: '10px',
@@ -182,8 +180,8 @@ const CampaignDetail = ({ campaign, campaignId }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div style={styles.card}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-opacity-25 backdrop-filter backdrop-blur-lg">
+      <div style={styles.card} className="bg-opacity-25 backdrop-filter backdrop-blur-lg">
         <h3 className="text-2xl font-bold mb-4">{campaign.name || "N/A"}</h3>
         <p><strong>Target Domain:</strong> {campaign.domain || "N/A"}</p>
         <p><strong>Created At:</strong> {campaign.timestamp ? new Date(campaign.timestamp * 1000).toLocaleString() : "N/A"}</p>
@@ -196,8 +194,8 @@ const CampaignDetail = ({ campaign, campaignId }) => {
           <h4 className="text-xl font-bold">Email Profiles:</h4>
           
           <div className="mt-4 overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 bg-gray-800 ">
-              <thead className="bg-gray-700">
+            <table className="min-w-full divide-y divide-gray-200 bg-teal-800 ">
+              <thead className="bg-teal-700">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
@@ -206,9 +204,9 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-gray-800 divide-y divide-gray-700">
+              <tbody className="bg-teal-800 divide-y divide-teal-700 ">
                 {visibleEmails.map((email, index) => (
-                  <tr key={index} className="bg-gray-800">
+                  <tr key={index} className="bg-teal-800">
                     <td className="px-6 py-4 whitespace-nowrap">
                       {editMode && selectedIndex === index ? (
                         <input
@@ -216,10 +214,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="email"
                           value={editedProfile.email || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
+                          className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.email || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.email || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -229,10 +227,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="name"
                           value={editedProfile.name || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.name || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.name || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -242,10 +240,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="verified"
                           checked={editedProfile.verified || false}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
+                          className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.verified ? 'Yes' : 'No'}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.verified ? 'Yes' : 'No'}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -255,10 +253,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="quality"
                           value={editedProfile.quality || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
+                          className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.quality || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.quality || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
