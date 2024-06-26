@@ -174,11 +174,15 @@ const CampaignDetail = ({ campaign, campaignId }) => {
       borderRadius: '8px',
       cursor: 'pointer',
       transition: 'background-color 0.3s ease',
+      '&:hover': {
+        // background: 'rgba(89, 204, 181, 0.5)',
+        background:"#fff"
+      }
     },
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-black p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div style={styles.card}>
         <h3 className="text-2xl font-bold mb-4">{campaign.name || "N/A"}</h3>
         <p><strong>Target Domain:</strong> {campaign.domain || "N/A"}</p>
@@ -192,7 +196,7 @@ const CampaignDetail = ({ campaign, campaignId }) => {
           <h4 className="text-xl font-bold">Email Profiles:</h4>
           
           <div className="mt-4 overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 bg-gray-800 text-black">
+            <table className="min-w-full divide-y divide-gray-200 bg-gray-800 ">
               <thead className="bg-gray-700">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
@@ -212,10 +216,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="email"
                           value={editedProfile.email || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700 text-black"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700 text-black">{email.email || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.email || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -225,10 +229,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="name"
                           value={editedProfile.name || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700 text-black"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700 text-black">{email.name || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.name || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -238,10 +242,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="verified"
                           checked={editedProfile.verified || false}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700 text-black"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700 text-black">{email.verified ? 'Yes' : 'No'}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.verified ? 'Yes' : 'No'}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -251,23 +255,23 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                           name="quality"
                           value={editedProfile.quality || ''}
                           onChange={handleInputChange}
-                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700 text-black"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-gray-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700 text-black">{email.quality || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-gray-700">{email.quality || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       {editMode && selectedIndex === index ? (
                         <div className="flex space-x-2">
                           <button
-                            className="bg-blue-500 text-black px-4 py-1 rounded-lg"
+                            className="bg-green-500 px-4 py-1 rounded-lg"
                             onClick={handleSaveClick}
                           >
                             Save
                           </button>
                           <button
-                            className="bg-gray-600 text-black px-4 py-1 rounded-lg"
+                            className="bg-gray-600 px-4 py-1 rounded-lg"
                             onClick={handleCancelClick}
                           >
                             Cancel
@@ -275,7 +279,7 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                         </div>
                       ) : (
                         <button
-                          className="bg-blue-500 text-black px-4 py-1 rounded-lg"
+                          className="bg-green-500 px-4 py-1 rounded-lg"
                           onClick={() => handleEditClick(index, email)}
                         >
                           Edit

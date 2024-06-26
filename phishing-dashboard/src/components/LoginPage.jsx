@@ -52,7 +52,7 @@ const LoginPage = () => {
       border: '0.0625rem solid rgba(255, 255, 255, 0.18)', // 1px / 16px = 0.0625rem
     },
     heading: {
-      fontSize: '1.5rem', // 24px / 16px = 1.5rem
+      fontSize: '3rem', // 24px / 16px = 1.5rem
       fontWeight: 'bold',
       marginBottom: '1rem', // 16px / 16px = 1rem
       color: 'white',
@@ -105,7 +105,7 @@ const LoginPage = () => {
         <h2 style={styles.heading}>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label style={styles.label}>Email</label>
+            <label style={styles.label}><span>Email</span></label>
             <input
               type="email"
               value={email}
@@ -115,7 +115,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label style={styles.label}>Password</label>
+            <label style={styles.label}><span>Password</span></label>
             <input
               type="password"
               value={password}
