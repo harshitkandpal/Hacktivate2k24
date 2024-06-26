@@ -26,7 +26,7 @@ const NewCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmailIndex, setSelectedEmailIndex] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isCampaignRunning, setIsCampaignRunning] = useState(false); // State to manage campaign status
+   // State to manage campaign status
   const navigate = useNavigate();
 
   // Example implementation of handleSaveProfile
@@ -95,22 +95,12 @@ const NewCampaign = () => {
     }));
   };
 
-  const handleSendMail = (mailData) => {
+  const handleGenerateMail = (mailData) => {
     console.log('Sending phishing mail:', mailData);
     // Implement the logic to send the phishing mail here
   };
 
-  const handleStartCampaign = () => {
-    setIsCampaignRunning(true);
-    // Implement logic to start the phishing campaign
-    console.log('Phishing campaign started');
-  };
-
-  const handleStopCampaign = () => {
-    setIsCampaignRunning(false);
-    // Implement logic to stop the phishing campaign
-    console.log('Phishing campaign stopped');
-  };
+  
 
   return (
     <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900  text-white p-4 rounded-2xl ">
@@ -129,8 +119,8 @@ const NewCampaign = () => {
           />
           <UploadCSV onAddEmails={handleuploadcsv} />
           <AddEmailManually onAddEmails={handleAddEmails} />
-          <GeneratePhishingMail onSendMail={handleSendMail} />
-          {!isCampaignRunning ? (
+          <GeneratePhishingMail onSendMail={handleGenerateMail} />
+          {/* {!isCampaignRunning ? (
             <button
               type="button"
               onClick={handleStartCampaign}
@@ -146,7 +136,7 @@ const NewCampaign = () => {
             >
               Stop Campaign
             </button>
-          )}
+          )} */}
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
             Save Campaign
           </button>
@@ -154,13 +144,7 @@ const NewCampaign = () => {
       </div>
 
       {/* Render CampaignAnalytics component if campaign is running or stopped */}
-      {isCampaignRunning || !isLoading ? (
-        <CampaignAnalytics campaign={data} />
-      ) : (
-        <div className="text-center mt-8 text-gray-400">
-          Analytics will appear here once the campaign is running or stopped.
-        </div>
-      )}
+      
     </div>
   );
 };
