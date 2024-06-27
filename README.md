@@ -61,22 +61,22 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-   HTML
+   React JS
   </div>
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-    CSS
+    Node JS
   </div>
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-    JAVASCRIPT
+    Google Firebase
   </div>
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-    Node.js
+    Hunter.io API
   </div>
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-    Hunter.IO
+    Gemini-1.5-flash API
   </div>
   <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
-    Docker
+    Tailwind CSS
   </div>
 </div>
 
