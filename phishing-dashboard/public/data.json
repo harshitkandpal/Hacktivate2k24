@@ -1,0 +1,441 @@
+{
+  "data": {
+      "name": "Infosys",
+      "createdAt": null,
+      "clickThroughRate":10,
+      "collectedEmails":13,
+      "domain": "infosys.com",
+      "disposable": false,
+      "webmail": false,
+      "accept_all": true,
+      "pattern": "{first}_{last}",
+      "organization": "Infosys",
+      "description": "Infosys is an IT services company that provides consulting, technology solutions, and digital transformation services.",
+      "industry": "IT Services and IT Consulting",
+      "twitter": "https://twitter.com/infosyscareers",
+      "facebook": "https://facebook.com/infosys",
+      "linkedin": "https://linkedin.com/company/infosys",
+      "instagram": "https://instagram.com/infosys",
+      "youtube": "https://youtube.com/infosys",
+      "technologies": [
+          "iis",
+          "typekit",
+          "windows-server"
+      ],
+      "country": "IN",
+      "state": null,
+      "city": null,
+      "postal_code": null,
+      "street": null,
+      "headcount": "10001+",
+      "company_type": "public company",
+      "emails": [
+          {
+              "value": "ranjit_narula@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "confusedofcalcutta.com",
+                      "uri": "http://confusedofcalcutta.com/about-me",
+                      "extracted_on": "2023-10-27",
+                      "last_seen_on": "2024-04-27",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "confusedofcalcutta.com",
+                      "uri": "http://confusedofcalcutta.com/about-me/comment-page-4",
+                      "extracted_on": "2023-10-27",
+                      "last_seen_on": "2024-04-27",
+                      "still_on_page": true
+                  }
+              ],
+              "first_name": "Ranjit",
+              "last_name": "Narula",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-06-07",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "manu_tyagi@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2022/02/next-generation-personalization_infosys-consulting_pov.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2023/01/going-digital-can-transform-your-loyalty-program-infosys-consulting.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  }
+              ],
+              "first_name": "Manu",
+              "last_name": "Tyagi",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-29",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "gisela_rojas@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2021/09/revamping-investment-management-marketing-data_infosys-consulting.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2022/03/value-based-digital-transformation_infosys-consulting.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2022/10/enterprise-data-demand-management-governance-framework_infosys-consulting.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  }
+              ],
+              "first_name": "Gisela",
+              "last_name": "Rojas",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "yogesh_bansal@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2022/02/re-imagining-insurance-for-the-future_infosys-consulting.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/wp-content/uploads/2022/03/contact-center-transformation_infosys-consulting-pov.pdf",
+                      "extracted_on": "2023-05-19",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  }
+              ],
+              "first_name": "Yogesh",
+              "last_name": "Bansal",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "wagner_guimaraes@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "ecommercebrasil.com.br",
+                      "uri": "http://ecommercebrasil.com.br/artigos/analise-de-dados-automatizada",
+                      "extracted_on": "2022-12-29",
+                      "last_seen_on": "2024-03-31",
+                      "still_on_page": true
+                  }
+              ],
+              "first_name": "Wagner",
+              "last_name": "Guimaraes",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": "https://www.linkedin.com/in/wagnercezarguimaraes/",
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-06-19",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "amitabh_nangia@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/2023/02/23/the-esg-data-challenge-part-1",
+                      "extracted_on": "2023-03-28",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/2020/08/27/re-imagining-core-operation-processes-for-capital-market-firms",
+                      "extracted_on": "2022-05-25",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "infosysconsultinginsights.com",
+                      "uri": "http://infosysconsultinginsights.com/2020/08/27/reimagining-core-operational-processes-for-capital-market-firms-the-operational-excellence-context",
+                      "extracted_on": "2022-05-25",
+                      "last_seen_on": "2024-02-21",
+                      "still_on_page": false
+                  }
+              ],
+              "first_name": "Amitabh",
+              "last_name": "Nangia",
+              "position": "Principal Infosys Consulting",
+              "seniority": "senior",
+              "department": "education",
+              "linkedin": "https://www.linkedin.com/in/amitabhnangia/",
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "girish_kumar@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "gerrit.opencord.org",
+                      "uri": "http://gerrit.opencord.org/plugins/gitiles/ofagent-go/+log/refs/tags/v1.5.1/go.sum",
+                      "extracted_on": "2024-03-29",
+                      "last_seen_on": "2024-03-29",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "wiki.lfnetworking.org",
+                      "uri": "http://wiki.lfnetworking.org/download/attachments/82906033/nephio-nbi-analysis-lfn-final.pdf",
+                      "extracted_on": "2023-08-26",
+                      "last_seen_on": "2024-05-27",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "gerrit.opencord.org",
+                      "uri": "http://gerrit.opencord.org/plugins/gitiles/ofagent-go/+log/refs/tags/v1.5.1/go.mod",
+                      "extracted_on": "2023-06-28",
+                      "last_seen_on": "2024-03-28",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "gerrit.opencord.org",
+                      "uri": "http://gerrit.opencord.org/plugins/gitiles/ofagent-go/+log/0129dcf8ac8e0de4d1ede478551b3b953d4b89fb",
+                      "extracted_on": "2023-06-19",
+                      "last_seen_on": "2024-06-20",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "gerrit.opencord.org",
+                      "uri": "http://gerrit.opencord.org/plugins/gitiles/voltha-openolt-adapter/+log/3e2685122020cc29de21d6f36c6fe034c87bf004/internal/pkg/core/openolt_flowmgr.go",
+                      "extracted_on": "2023-03-15",
+                      "last_seen_on": "2024-06-15",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "gerrit.opencord.org",
+                      "uri": "http://gerrit.opencord.org/plugins/gitiles/ofagent-go/+log/refs/tags/v1.5.1",
+                      "extracted_on": "2023-03-14",
+                      "last_seen_on": "2024-06-14",
+                      "still_on_page": true
+                  }
+              ],
+              "first_name": "Girish",
+              "last_name": "Kumar",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "luka_poulton@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "h1bdata.com",
+                      "uri": "http://h1bdata.com/pin/how-small-businesses-can-utilize-salesforce-service-cloud-essentials-to-boost-productivity",
+                      "extracted_on": "2022-04-21",
+                      "last_seen_on": "2022-04-21",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "h1bdata.com",
+                      "uri": "http://h1bdata.com",
+                      "extracted_on": "2021-10-06",
+                      "last_seen_on": "2024-04-18",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "h1bdata.com",
+                      "uri": "http://h1bdata.com/page/2",
+                      "extracted_on": "2021-06-28",
+                      "last_seen_on": "2024-05-05",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "h1bdata.com",
+                      "uri": "http://h1bdata.com/pin/7-reasons-to-choose-salesforce-marketing-cloud",
+                      "extracted_on": "2022-04-21",
+                      "last_seen_on": "2022-04-21",
+                      "still_on_page": false
+                  },
+                  {
+                      "domain": "h1bdata.com",
+                      "uri": "http://h1bdata.com/pin/salesforce-social-customer-service-salesforce-social-studio",
+                      "extracted_on": "2022-04-21",
+                      "last_seen_on": "2022-04-21",
+                      "still_on_page": false
+                  }
+              ],
+              "first_name": "Luka",
+              "last_name": "Poulton",
+              "position": "Practice Lead",
+              "seniority": null,
+              "department": "management",
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-06-05",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "mandeep_sandhu@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "lkml.iu.edu",
+                      "uri": "http://lkml.iu.edu/hypermail/linux/kernel/0412.2/1282.html",
+                      "extracted_on": "2019-12-21",
+                      "last_seen_on": "2024-02-07",
+                      "still_on_page": true
+                  }
+              ],
+              "first_name": "Mandeep",
+              "last_name": "Sandhu",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          },
+          {
+              "value": "bhasker_s@infosys.com",
+              "type": "personal",
+              "confidence": 94,
+              "sources": [
+                  {
+                      "domain": "chartered-aaccountant-finance.blogspot.com",
+                      "uri": "http://chartered-aaccountant-finance.blogspot.com/2014/09/aaykarbhavan-no-problem-with-form-23b.html",
+                      "extracted_on": "2020-01-10",
+                      "last_seen_on": "2024-04-15",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "chartered-aaccountant-finance.blogspot.com",
+                      "uri": "http://chartered-aaccountant-finance.blogspot.com/2014/09/aaykarbhavan-suggestionform-23b-is-not.html",
+                      "extracted_on": "2020-01-10",
+                      "last_seen_on": "2024-04-12",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "pdfslide.net",
+                      "uri": "http://pdfslide.net/business/faq-on-forms-under-indian-companies-act-2013.html",
+                      "extracted_on": "2019-11-19",
+                      "last_seen_on": "2024-04-26",
+                      "still_on_page": true
+                  },
+                  {
+                      "domain": "cainindia.org",
+                      "uri": "http://cainindia.org/news/4_2019/webcast_on_mca_e_form_active_active_company_tagging_identities_and_verification_inc22a_compliance_and_other_aspects.html",
+                      "extracted_on": "2019-08-28",
+                      "last_seen_on": "2024-04-16",
+                      "still_on_page": true
+                  }
+              ],
+              "first_name": "Bhasker",
+              "last_name": "Subramanian",
+              "position": null,
+              "seniority": null,
+              "department": null,
+              "linkedin": null,
+              "twitter": null,
+              "phone_number": null,
+              "verification": {
+                  "date": "2024-05-24",
+                  "status": "accept_all"
+              }
+          }
+      ],
+      "linked_domains": []
+  },
+  "meta": {
+      "results": 1307,
+      "limit": 10,
+      "offset": 0,
+      "params": {
+          "domain": "infosys.com",
+          "company": null,
+          "type": null,
+          "seniority": null,
+          "department": null
+      }
+  }
+}
