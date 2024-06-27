@@ -14,7 +14,7 @@ const FormSection = ({ data, setData, isLoading }) => {
   const fetchData = async () => {
     try {
       
-      const response = await fetch('/data.json');
+      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=apikey`);
       const jsonData = await response.json();
       console.log('Fetched data:', jsonData);
       setData(jsonData);

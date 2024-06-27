@@ -2,8 +2,8 @@
   "data": {
       "name": "Infosys",
       "createdAt": null,
-      "clickThroughRate":10,
-      "collectedEmails":13,
+      "clickThroughRate":1,
+      "collectedEmails":10,
       "domain": "infosys.com",
       "disposable": false,
       "webmail": false,
