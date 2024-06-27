@@ -28,6 +28,7 @@ const NewCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmailIndex, setSelectedEmailIndex] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [campaignSaved, setCampaignSaved] = useState(false); // State to track campaign saved status
 
   const navigate = useNavigate();
 
@@ -52,16 +53,24 @@ const NewCampaign = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Form submitted with data:', data);
-  
+
     try {
-      await addDoc(collection(db, 'campaigns'), data);
-      console.log('Campaign saved successfully');
+      const campaignData = {
+        ...data,
+        createdAt: Date.now() // Store current UNIX timestamp
+      };
+
+      const docRef = await addDoc(collection(db, 'campaigns'), campaignData);
+      console.log('Campaign saved successfully with ID:', docRef.id);
+      
+      // Set campaignSaved state to true to display popup
+      setCampaignSaved(true);
+
       // Instead of navigating, you can show a success message or handle it in your UI
     } catch (error) {
       console.error('Error saving campaign:', error);
     }
   };
-  
 
   const handleEmailClick = (index) => {
     setSelectedEmailIndex(index);
@@ -118,6 +127,11 @@ const NewCampaign = () => {
     <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900 text-white p-4 rounded-2xl">
       <h2 className="text-4xl font-bold text-center p-5">New Campaign</h2>
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
+        {campaignSaved && ( // Conditional rendering for campaign saved popup
+          <div className="bg-green-500 text-white font-bold py-2 px-4 rounded mt-4 text-center">
+            Campaign saved successfully!
+          </div>
+        )}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <FormSection data={data} setData={setData} isLoading={isLoading} />
           <CompanyProfile data={data} setData={setData} />

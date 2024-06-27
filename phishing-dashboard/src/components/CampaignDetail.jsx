@@ -12,10 +12,10 @@ const CampaignDetail = ({ campaign, campaignId }) => {
   const [filteredEmails, setFilteredEmails] = useState([]);
 
   useEffect(() => {
-    if (campaign && campaign.emails) {
-      setVisibleEmails(campaign.emails.slice(0, itemsPerPage));
+    if (campaign && campaign.data && campaign.data.emails) {
+      setVisibleEmails(campaign.data.emails.slice(0, itemsPerPage));
       setCurrentPage(1);
-      setFilteredEmails(campaign.emails);
+      setFilteredEmails(campaign.data.emails);
     }
   }, [campaign, itemsPerPage]);
 
@@ -36,30 +36,28 @@ const CampaignDetail = ({ campaign, campaignId }) => {
 
       const campaignData = campaignDocSnapshot.data();
 
-      if (!campaignData.emails || !Array.isArray(campaignData.emails)) {
+      if (!campaignData.data || !campaignData.data.emails || !Array.isArray(campaignData.data.emails)) {
         console.error('Invalid emails data structure in campaign document');
         return;
       }
 
-      const emailIndex = selectedIndex;
-      if (emailIndex === null || emailIndex < 0 || emailIndex >= campaignData.emails.length) {
-        console.error('Invalid email index');
-        return;
-      }
+      const updatedEmails = campaignData.data.emails.map(email => {
+        if (email.value === updatedEmail.value) {
+          return { ...updatedEmail };
+        }
+        return email;
+      });
 
-      const updatedEmails = [...campaignData.emails];
-      updatedEmails[emailIndex] = { ...updatedEmail };
-
-      await updateDoc(campaignDocRef, { emails: updatedEmails });
+      await updateDoc(campaignDocRef, { data: { emails: updatedEmails } });
 
       console.log('Email profile updated successfully:', updatedEmail);
 
       // Reload campaign data
       const updatedCampaignDoc = await getDoc(campaignDocRef);
       const updatedCampaignData = updatedCampaignDoc.data();
-      if (updatedCampaignData && updatedCampaignData.emails) {
-        setVisibleEmails(updatedCampaignData.emails.slice(0, itemsPerPage));
-        setFilteredEmails(updatedCampaignData.emails);
+      if (updatedCampaignData && updatedCampaignData.data && updatedCampaignData.data.emails) {
+        setVisibleEmails(updatedCampaignData.data.emails.slice(0, itemsPerPage));
+        setFilteredEmails(updatedCampaignData.data.emails);
       }
     } catch (error) {
       console.error('Error updating email profile:', error);
@@ -172,10 +170,6 @@ const CampaignDetail = ({ campaign, campaignId }) => {
       borderRadius: '8px',
       cursor: 'pointer',
       transition: 'background-color 0.3s ease',
-      '&:hover': {
-        // background: 'rgba(89, 204, 181, 0.5)',
-        background:"#fff"
-      }
     },
   };
 
@@ -184,7 +178,7 @@ const CampaignDetail = ({ campaign, campaignId }) => {
       <div style={styles.card} className="bg-opacity-25 backdrop-filter backdrop-blur-lg">
         <h3 className="text-2xl font-bold mb-4">{campaign.name || "N/A"}</h3>
         <p><strong>Target Domain:</strong> {campaign.domain || "N/A"}</p>
-        <p><strong>Created At:</strong> {campaign.timestamp ? new Date(campaign.timestamp * 1000).toLocaleString() : "N/A"}</p>
+        <p><strong>Created At:</strong> {campaign.createdAt ? new Date(campaign.createdAt ).toLocaleString() : "N/A"}</p>
 
         {/* Render Analytics */}
         <CampaignAnalytics campaign={campaign} />
@@ -198,9 +192,11 @@ const CampaignDetail = ({ campaign, campaignId }) => {
               <thead className="bg-teal-700">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Verified</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Quality</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">First Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Last Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Position</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">DEPARTMENT</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">PHONE NUMBER</th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -212,51 +208,77 @@ const CampaignDetail = ({ campaign, campaignId }) => {
                         <input
                           type="text"
                           name="email"
-                          value={editedProfile.email || ''}
+                          value={editedProfile.value || ''}
                           onChange={handleInputChange}
                           className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.email || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.value || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {editMode && selectedIndex === index ? (
                         <input
                           type="text"
-                          name="name"
-                          value={editedProfile.name || ''}
+                          name="first_name"
+                          value={editedProfile.first_name || ''}
                           onChange={handleInputChange}
                           className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.name || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.first_name || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {editMode && selectedIndex === index ? (
                         <input
-                          type="checkbox"
-                          name="verified"
-                          checked={editedProfile.verified || false}
+                          type="text"
+                          name="last_name"
+                          value={editedProfile.last_name || ''}
                           onChange={handleInputChange}
-                          className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.verified ? 'Yes' : 'No'}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.last_name || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {editMode && selectedIndex === index ? (
                         <input
-                          type="number"
-                          name="quality"
-                          value={editedProfile.quality || ''}
+                          type="text"
+                          name="position"
+                          value={editedProfile.position || ''}
                           onChange={handleInputChange}
-                          className="border border-teal-600 px-3 py-1 rounded-lg bg-teal-700"
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
                         />
                       ) : (
-                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.quality || "N/A"}</span>
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.position || "N/A"}</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {editMode && selectedIndex === index ? (
+                        <input
+                          type="text"
+                          name="department"
+                          value={editedProfile.position || ''}
+                          onChange={handleInputChange}
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
+                        />
+                      ) : (
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.position || "N/A"}</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {editMode && selectedIndex === index ? (
+                        <input
+                          type="text"
+                          name="phone_number"
+                          value={editedProfile.phone_number || ''}
+                          onChange={handleInputChange}
+                          className="border border-gray-600 px-3 py-1 rounded-lg bg-teal-700"
+                        />
+                      ) : (
+                        <span className="px-3 py-1 rounded-lg inline-block bg-teal-700">{email.phone_number || "N/A"}</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
