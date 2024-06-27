@@ -6,7 +6,9 @@ import EmailsTable from './EmailsTable';
 import GeneratePhishingMail from './GeneratePhishingMail';
 import UploadCSV from './UploadCSV';
 import AddEmailManually from './AddEmailManually';
-import CampaignAnalytics from './CampaignAnalytics'; // Import CampaignAnalytics component
+import CampaignAnalytics from './CampaignAnalytics';
+import { db } from '../firebaseConfig'; // Import Firestore and its functions
+import { collection, addDoc } from 'firebase/firestore';
 
 const NewCampaign = () => {
   const [data, setData] = useState({
@@ -26,18 +28,8 @@ const NewCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmailIndex, setSelectedEmailIndex] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
-   // State to manage campaign status
-  const navigate = useNavigate();
 
-  // Example implementation of handleSaveProfile
-  const handleSaveProfile = (index, updatedProfile) => {
-    const updatedEmails = [...data.data.emails];
-    updatedEmails[index].profile = updatedProfile;
-    setData((prevData) => ({
-      ...prevData,
-      data: { ...prevData.data, emails: updatedEmails },
-    }));
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,8 +37,8 @@ const NewCampaign = () => {
         setIsLoading(true);
         const response = await fetch('/data.json');
         const jsonData = await response.json();
-        console.log('Fetched data:', jsonData); // Log fetched data
-        setData(jsonData); // Set initial data from data.json
+        console.log('Fetched data:', jsonData);
+        setData(jsonData);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -57,24 +49,47 @@ const NewCampaign = () => {
     fetchData();
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Form submitted with data:', data);
-    navigate('/success');
+  
+    try {
+      await addDoc(collection(db, 'campaigns'), data);
+      console.log('Campaign saved successfully');
+      // Instead of navigating, you can show a success message or handle it in your UI
+    } catch (error) {
+      console.error('Error saving campaign:', error);
+    }
   };
+  
 
   const handleEmailClick = (index) => {
     setSelectedEmailIndex(index);
     setIsEditMode(true);
   };
 
+  const handleSaveProfile = (index, updatedProfile) => {
+    setData((prevData) => {
+      const updatedEmails = [...prevData.data.emails];
+      updatedEmails[index] = updatedProfile;
+      return {
+        ...prevData,
+        data: { ...prevData.data, emails: updatedEmails },
+      };
+    });
+  };
+
   const handleSaveEmail = (updatedEmail) => {
-    const updatedEmails = [...data.data.emails];
-    updatedEmails[selectedEmailIndex] = updatedEmail;
-    setData((prevData) => ({
-      ...prevData,
-      data: { ...prevData.data, emails: updatedEmails },
-    }));
+    console.log('Saving email:', updatedEmail);
+    setData((prevData) => {
+      const updatedEmails = [...prevData.data.emails];
+      updatedEmails[selectedEmailIndex] = updatedEmail;
+      console.log('Updated emails:', updatedEmails);
+      return {
+        ...prevData,
+        data: { ...prevData.data, emails: updatedEmails },
+      };
+    });
     setIsEditMode(false);
   };
 
@@ -97,13 +112,10 @@ const NewCampaign = () => {
 
   const handleGenerateMail = (mailData) => {
     console.log('Sending phishing mail:', mailData);
-    // Implement the logic to send the phishing mail here
   };
 
-  
-
   return (
-    <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900  text-white p-4 rounded-2xl ">
+    <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900 text-white p-4 rounded-2xl">
       <h2 className="text-4xl font-bold text-center p-5">New Campaign</h2>
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -120,31 +132,11 @@ const NewCampaign = () => {
           <UploadCSV onAddEmails={handleuploadcsv} />
           <AddEmailManually onAddEmails={handleAddEmails} />
           <GeneratePhishingMail onSendMail={handleGenerateMail} />
-          {/* {!isCampaignRunning ? (
-            <button
-              type="button"
-              onClick={handleStartCampaign}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
-            >
-              Start Campaign
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleStopCampaign}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
-            >
-              Stop Campaign
-            </button>
-          )} */}
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
             Save Campaign
           </button>
         </form>
       </div>
-
-      {/* Render CampaignAnalytics component if campaign is running or stopped */}
-      
     </div>
   );
 };
