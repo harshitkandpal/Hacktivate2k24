@@ -1,12 +1,12 @@
-# AI-PhishBot
+# PHISHING STIMULATOR
 
 ## Tagline
 
 Simulating sophisticated phishing attacks to enhance cybersecurity training and preparedness.
 
-## WHAT DOES THIS APPLICATION DO?
+## The problem it solves
 
-AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations, providing insights into potential vulnerabilities within an organization. By mimicking legitimate emails and launching sophisticated phishing campaigns, AI-PhishBot helps organizations train employees to recognize and respond to phishing attempts, ultimately improving overall security posture.
+This application allows cybersecurity teams to conduct realistic phishing simulations, providing insights into potential vulnerabilities within an organization. By mimicking legitimate emails and launching sophisticated phishing campaigns, AI-PhishBot helps organizations train employees to recognize and respond to phishing attempts, ultimately improving overall security posture.
 
 ## Key Features
 
@@ -53,6 +53,29 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
 11. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
 
 12. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
+
+## Technologies we used
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+   HTML
+  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    CSS
+  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    JAVASCRIPT
+  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    Node.js
+  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    Hunter.IO
+  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+    Docker
+  </div>
+</div>
 
 ## Deliverables
 
