@@ -7,8 +7,9 @@ const GeneratePhishingMail = ({ onSendMail }) => {
   const [mailData, setMailData] = useState({
     subject: '',
     body: '',
-    recipient: ''
   });
+  const [emailsSentCount, setEmailsSentCount] = useState(0);
+  const [campaignCompleted, setCampaignCompleted] = useState(false); // State to track campaign completion
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -16,41 +17,52 @@ const GeneratePhishingMail = ({ onSendMail }) => {
   };
 
   const handleSendMail = () => {
-    onSendMail(mailData);
-    setMailData({ subject: '', body: '', recipient: '' }); // Reset the form
+    onSendMail(mailData); // Assuming onSendMail function sends single email
+    setMailData({ subject: '', body: '' }); // Reset the form after sending
   };
 
   const handleStartCampaign = async () => {
     setIsCampaignRunning(true);
 
-    // Fetching email list from email.json
     try {
-      const response = await fetch('/email.json'); // Assuming email.json is in your public directory
-      const emailData = await response.json();
-      const emails = emailData.emails;
-
-      // Send the list of emails to the server
-      const res = await fetch('http://localhost:3001/send-emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ emails, mailData }),
-      });
-
-      if (res.ok) {
-        console.log('Phishing campaign started successfully');
-      } else {
-        console.error('Failed to start phishing campaign:', res.statusText);
+      const response = await fetch('email.json');
+      if (!response.ok) {
+        throw new Error('Failed to fetch emails');
       }
+      const data = await response.json();
+
+      const emails = data.emails; // Assuming emails are in an array in emails.json
+      
+      const sendEmailsToServer = async () => {
+        try {
+          const response = await fetch('http://localhost:3001/send-emails', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ emails, mailData }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to send phishing emails');
+          }
+          const responseData = await response.json();
+          console.log('Phishing emails sent successfully:', responseData);
+          setEmailsSentCount(emails.length); // Update emailsSentCount
+          setCampaignCompleted(true); // Set campaign completion flag
+        } catch (error) {
+          console.error('Error sending phishing emails:', error);
+        }
+      };
+
+      await sendEmailsToServer();
+
+      setIsCampaignRunning(false); // Stop campaign after sending
+      console.log('Phishing campaign stopped');
+
     } catch (error) {
       console.error('Error starting phishing campaign:', error);
     }
-  };
-
-  const handleStopCampaign = () => {
-    setIsCampaignRunning(false);
-    console.log('Phishing campaign stopped');
   };
 
   return (
@@ -83,11 +95,21 @@ const GeneratePhishingMail = ({ onSendMail }) => {
       ) : (
         <button
           type="button"
-          onClick={handleStopCampaign}
+          onClick={() => setIsCampaignRunning(false)}
           className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
         >
           Stop Campaign
         </button>
+      )}
+      {emailsSentCount > 0 && (
+        <div className="text-center mt-4 text-gray-400">
+          {emailsSentCount} email{emailsSentCount !== 1 ? 's' : ''} sent
+        </div>
+      )}
+      {campaignCompleted && ( // Conditionally render completion message
+        <div className="text-center mt-4 text-green-500">
+          Phishing campaign completed successfully!
+        </div>
       )}
       {isCampaignRunning || !isLoading ? (
         <CampaignAnalytics campaign={''} />
