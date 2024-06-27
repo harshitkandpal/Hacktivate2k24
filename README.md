@@ -1,6 +1,6 @@
 ### PHISHING STIMULATOR
 
-## "Empower Your Team: Train, Test, and Secure with Our Phishing Simulator"
+# Empower Your Team: Train, Test, and Secure with Our Phishing Simulator
 
 Simulating sophisticated phishing attacks to enhance cybersecurity training and preparedness.
 
