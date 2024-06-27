@@ -31,11 +31,11 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
 
 3. **Create New Campaign**: Go to the 'New Campaigns' section and input the target domain name. A dropdown of campaigns sorted by date will be displayed.
 
-   ![New Campaign](path_to_new_campaign_image.png)
+   ![New Campaign](images/IMAGE2.jpg)
 
 4. **View Campaigns**: Navigate to 'View Campaigns' to see the list of existing campaigns sorted by date.
 
-   ![View Campaigns](path_to_view_campaigns_image.png)
+   ![View Campaigns](images/IMAGE3.jpg)
 
 5. **Information Gathering**: Enter the target domain name to automatically gather active email addresses using tools like Google Dorking, Crawling Websites, Hunter.io, and APIs. Alternatively, upload a CSV file with email addresses.
 
