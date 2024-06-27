@@ -27,7 +27,7 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
 
 2. **Dashboard Login**: Access the dashboard to view and manage campaigns. The login screen will appear as shown below:
 
-   ![Login Screen](path_to_login_image.png)
+   ![Login Screen](images/image1.png)
 
 3. **Create New Campaign**: Go to the 'New Campaigns' section and input the target domain name. A dropdown of campaigns sorted by date will be displayed.
 
