@@ -23,9 +23,7 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 
 1. **Setup**: Clone the repository and install necessary dependencies.
     ```sh
-    git clone https://github.com/yourusername/ai-phishbot.git
-    cd ai-phishbot
-    pip install -r requirements.txt
+    npm install
     ```
 
 2. **Login**: The login screen will appear as shown below. Enter your credentials or login via a Google Account:
