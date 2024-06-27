@@ -22,8 +22,8 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 ## How to Use
 
 1. **Setup**: Clone the repository and install necessary dependencies.
-    ```shn pm install
-
+    ```sh
+npm install
     ```
 
 2. **Login**: The login screen will appear as shown below. Enter your credentials or login via a Google Account:
