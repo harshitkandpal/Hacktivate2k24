@@ -9,9 +9,13 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
+let isCampaignRunning = false;
+
 // POST route to receive list of emails and start sending phishing emails
 app.post('/send-emails', async (req, res) => {
   const { emails, mailData } = req.body;
+
+  isCampaignRunning = true; // Start the campaign
 
   // Create a transporter using nodemailer
   let transporter = nodemailer.createTransport({
@@ -44,7 +48,16 @@ app.post('/send-emails', async (req, res) => {
     }
   }
 
-  res.status(200).json({ message: 'Phishing emails sent successfully' });
+  isCampaignRunning = false; // Stop the campaign after all emails are sent
+  console.log('Phishing campaign stopped');
+
+  // Notify client that emails are sent and campaign is stopped
+  res.status(200).json({ message: 'Phishing emails sent successfully', campaignStatus: 'stopped' });
+});
+
+// Endpoint to check if campaign is running
+app.get('/campaign-status', (req, res) => {
+  res.status(200).json({ isCampaignRunning });
 });
 
 // Start the server
