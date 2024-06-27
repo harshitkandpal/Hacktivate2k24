@@ -1,6 +1,6 @@
-# PHISHING STIMULATOR
+### PHISHING STIMULATOR
 
-## Tagline
+## "Empower Your Team: Train, Test, and Secure with Our Phishing Simulator"
 
 Simulating sophisticated phishing attacks to enhance cybersecurity training and preparedness.
 
@@ -35,27 +35,30 @@ This application allows cybersecurity teams to conduct realistic phishing simula
    ![Signup Screen](images/IMAGE2.jpg)
    
 3. **Dashboard Login**: Access the dashboard to view and manage campaigns and the history of the previous campaigns conducted and their records and also success and failure rates of the previous campaign.
+   
    ![Dashboard Screen](images/IMAGE3.jpg)
 
-5. **List of Active email addresses **: Through profiling and tools like [Hunter.IO](https://hunter.io/) we have created a list of active email addresses.
+4. **List of Active email addresses **: Through profiling and tools like [Hunter.IO](https://hunter.io/) we have created a list of active email addresses.
+
    ![Profiling](images/IMAGE4.jpg)
     
-5. **Create New Campaign**: Go to the 'New Campaigns' section and write the campaign name and mention all the input the target domain name.
+6. **Create New Campaign**: Go to the 'New Campaigns' section and write the campaign name and mention all the input the target domain name.
+
    ![New Campaign](images/IMAGE5.jpg)
 
-6. **View Campaigns**: Navigate to 'View Campaigns' to see the list of existing campaigns sorted by date. A dropdown of campaigns sorted by date will be displayed.
+8. **View Campaigns**: Navigate to 'View Campaigns' to see the list of existing campaigns sorted by date. A dropdown of campaigns sorted by date will be displayed.
 
-7. **Information Gathering**: Enter the target domain name to automatically gather active email addresses using tools like Google Dorking, Crawling Websites, Hunter.io, and APIs. Alternatively, upload a CSV file with email addresses.
+9. **Information Gathering**: Enter the target domain name to automatically gather active email addresses using tools like Google Dorking, Crawling Websites, Hunter.io, and APIs. Alternatively, upload a CSV file with email addresses.
 
-8. **Email Verification**: Verify the gathered email addresses to ensure they are active. The verified list will be saved in the database.
+10. **Email Verification**: Verify the gathered email addresses to ensure they are active. The verified list will be saved in the database.
 
-9. **Profiling**: Select an email address from the list to gather detailed information using automated and manual profiling techniques.
+11. **Profiling**: Select an email address from the list to gather detailed information using automated and manual profiling techniques.
 
-10. **Phishing Email Generation**: Use the AI bot to generate and send phishing emails that mimic legitimate communication styles.
+12. **Phishing Email Generation**: Use the AI bot to generate and send phishing emails that mimic legitimate communication styles.
 
-11. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
+13. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
 
-12. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
+14. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
 
 ## Technologies we used
 
@@ -80,23 +83,8 @@ This application allows cybersecurity teams to conduct realistic phishing simula
   </div>
 </div>
 
-## Deliverables
-
-- **Reconnaissance Report**: Detailed report on the tools and methods used for reconnaissance and a list of active email addresses.
-- **Profiling Report**: Comprehensive profiles for each of the active email addresses.
-- **Phishing Email Samples**: Samples of generated phishing emails.
-- **Campaign Performance Metrics**: Report on the phishing campaign's performance metrics.
-- **Bot Responses**: Samples of responses from the bots.
-
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
-For more information, please contact [yourname@yourdomain.com](mailto:yourname@yourdomain.com).
+For more information, please contact [harshitkandpal670@gmail.com](mailto:harshitkandpal670@gmail.com).
 
