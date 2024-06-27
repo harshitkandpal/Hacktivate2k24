@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import FormSection from './FormSection';
 import CompanyProfile from './CompanyProfile';
 import EmailsTable from './EmailsTable';
-import GeneratePhishingMail from './GeneratePhishingMail';
+import GenerateMail from './GenerateMail';
 import UploadCSV from './UploadCSV';
 import AddEmailManually from './AddEmailManually';
 import CampaignAnalytics from './CampaignAnalytics';
+
 import { db } from '../firebaseConfig'; // Import Firestore and its functions
 import { collection, addDoc } from 'firebase/firestore';
+
 
 const NewCampaign = () => {
   const [data, setData] = useState({
@@ -131,10 +133,11 @@ const NewCampaign = () => {
           />
           <UploadCSV onAddEmails={handleuploadcsv} />
           <AddEmailManually onAddEmails={handleAddEmails} />
-          <GeneratePhishingMail onSendMail={handleGenerateMail} />
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
+          <GenerateMail onSendMail={handleGenerateMail} />
+          
+          {/* <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
             Save Campaign
-          </button>
+          </button> */}
         </form>
       </div>
     </div>
