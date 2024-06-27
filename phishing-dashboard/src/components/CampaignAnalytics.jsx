@@ -17,19 +17,19 @@ const CampaignAnalytics = ({ campaign }) => {
   }, [campaign]);
 
   const calculateSuccessRate = () => {
-    if (!campaign || campaign.data.collectedEmails === 0) return 0;
+    if (!campaign || !campaign.data || campaign.data.collectedEmails === 0) return 0;
     return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2);
   };
 
   const renderCharts = () => {
-    if (campaign) {
+    if (campaign && campaign.data) {
       renderBarChart();
       renderPieChart();
     }
   };
 
   const renderBarChart = () => {
-    if (barChartRef.current && campaign) {
+    if (barChartRef.current && campaign && campaign.data) {
       if (barChartRef.current.chart) {
         barChartRef.current.chart.destroy();
       }
@@ -79,7 +79,7 @@ const CampaignAnalytics = ({ campaign }) => {
   };
 
   const renderPieChart = () => {
-    if (pieChartRef.current && campaign) {
+    if (pieChartRef.current && campaign && campaign.data) {
       if (pieChartRef.current.chart) {
         pieChartRef.current.chart.destroy();
       }
@@ -122,7 +122,7 @@ const CampaignAnalytics = ({ campaign }) => {
     }
   };
 
-  if (!campaign) {
+  if (!campaign || !campaign.data) {
     return null; // If campaign data is not available, do not render anything
   }
 
