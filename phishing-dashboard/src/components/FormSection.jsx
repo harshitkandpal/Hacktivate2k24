@@ -11,8 +11,18 @@ const FormSection = ({ data, setData, isLoading }) => {
     setData({ ...data, domain: event.target.value });
   };
 
-  const handleSearchEmails = () => {
-    // Implement email search logic here
+  const fetchData = async () => {
+    try {
+      
+      const response = await fetch('/data.json');
+      const jsonData = await response.json();
+      console.log('Fetched data:', jsonData);
+      setData(jsonData);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+  
+    }
   };
 
   return (
@@ -49,7 +59,7 @@ const FormSection = ({ data, setData, isLoading }) => {
         type="button" // Change type to button because it's not a submit button here
         className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 md:self-end"
         style={{ height: '50px', minWidth: '9rem' }} // Adjusted minimum width here
-        onClick={handleSearchEmails}
+        onClick={fetchData}
         disabled={isLoading}
       >
         {isLoading ? 'Searching...' : 'Search Emails'}

@@ -37,7 +37,7 @@ const NewCampaign = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -52,8 +52,7 @@ const NewCampaign = () => {
       }
     };
 
-    fetchData();
-  }, []);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
