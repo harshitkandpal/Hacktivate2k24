@@ -16,8 +16,6 @@ async function run(prompt) {
   return text;
 }
 
-
-
 const GenerateMail = ({ onSendMail }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCampaignRunning, setIsCampaignRunning] = useState(false);
@@ -43,11 +41,11 @@ const GenerateMail = ({ onSendMail }) => {
 
     try {
       // Subject Prompt (replace with your specific prompt)
-      const subjectPrompt = "Write a catchy subject line for a marketing email";
+      const subjectPrompt = "Generate a single line subject for an email, which i am sending to inform that the recipients resume has been shortlisted for the Google SDE-2 position. Congratulate first.";
       const subject = await run(subjectPrompt);
 
       // Description Prompt (replace with your specific prompt)
-      const descriptionPrompt = "Write a compelling description for the body of a marketing email";
+      const descriptionPrompt = "Write an email description in 300 words Dont give the subject of the email, give only the body. you are HR manager of Google. you have to right the mail to congratulate the recipient on being short listed. Write that your 'resume has been shortlisted. Fill the info in the given link.' Appreciate the recipient on their skills. The position name is: SDE-2. Reciever's name: Hacker.  Skills to appreciate: Full stack development knowledge, communication skills. Deadline Date to fill details in link is 28th June 2024. link to fill details is: 'http://127.0.0.1:5500/server/index.html'. Senders name: Christina Cian the tone should be catchy. Dont keep any spaces for me to add data, i just directly want to copy your response, so generate accordingly.";
       const description = await run(descriptionPrompt);
 
       setMailData({ ...mailData, subject, body: description }); // Update mailData with generated content
