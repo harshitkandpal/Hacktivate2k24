@@ -20,34 +20,38 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
 
 1. **Setup**: Clone the repository and install necessary dependencies.
     ```sh
-    git clone https://github.com/yourusername/ai-phishbot.git
-    cd ai-phishbot
-    pip install -r requirements.txt
+npm install
     ```
 
 2. **Dashboard Login**: Access the dashboard to view and manage campaigns. The login screen will appear as shown below:
 
    ![Login Screen](images/IMAGE1.jpg)
 
-3. **Create New Campaign**: Go to the 'New Campaigns' section and input the target domain name. A dropdown of campaigns sorted by date will be displayed.
+2. **Signup Page**: IF you have not created an account, then move to the signup page page to create an account
+   [Signup Screen](images/IMAGE2.jpg)
+   
+4. **Dashboard Login**: Access the dashboard to view and manage campaigns.
+   [Dashboard Screen](images/IMAGE3.jpg)    
+    
+6. **Create New Campaign**: Go to the 'New Campaigns' section and input the target domain name. A dropdown of campaigns sorted by date will be displayed.
 
-   ![New Campaign](images/IMAGE2.jpg)
+   ![New Campaign](images/IMAGE4.jpg)
 
-4. **View Campaigns**: Navigate to 'View Campaigns' to see the list of existing campaigns sorted by date.
+7. **View Campaigns**: Navigate to 'View Campaigns' to see the list of existing campaigns sorted by date.
 
-   ![View Campaigns](images/IMAGE3.jpg)
+   ![View Campaigns](images/IMAGE5.jpg)
 
-5. **Information Gathering**: Enter the target domain name to automatically gather active email addresses using tools like Google Dorking, Crawling Websites, Hunter.io, and APIs. Alternatively, upload a CSV file with email addresses.
+8. **Information Gathering**: Enter the target domain name to automatically gather active email addresses using tools like Google Dorking, Crawling Websites, Hunter.io, and APIs. Alternatively, upload a CSV file with email addresses.
 
-6. **Email Verification**: Verify the gathered email addresses to ensure they are active. The verified list will be saved in the database.
+9. **Email Verification**: Verify the gathered email addresses to ensure they are active. The verified list will be saved in the database.
 
-7. **Profiling**: Select an email address from the list to gather detailed information using automated and manual profiling techniques.
+10. **Profiling**: Select an email address from the list to gather detailed information using automated and manual profiling techniques.
 
-8. **Phishing Email Generation**: Use the AI bot to generate and send phishing emails that mimic legitimate communication styles.
+11. **Phishing Email Generation**: Use the AI bot to generate and send phishing emails that mimic legitimate communication styles.
 
-9. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
+12. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
 
-10. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
+13. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
 
 ## Deliverables
 
@@ -69,16 +73,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For more information, please contact [yourname@yourdomain.com](mailto:yourname@yourdomain.com).
 
-## General Instructions
-
-1. **Confidentiality**: Do not share the problem statement until the hackathon concludes.
-2. **Original Work**: All submissions must be original work. Disclose any third-party code used.
-3. **Code of Conduct**: Adhere to the hackathon's code of conduct.
-4. **Submission Guidelines**: Submit entries through the designated platform by the deadline.
-5. **Prohibited Activities**: No cheating, plagiarism, or tampering with other teams' projects.
-6. **Intellectual Property**: Teams retain ownership of their projects, but organizers can showcase them.
-7. **Technical Support**: Available through Discord and email.
-8. **Demo Requirements**: Present a demo highlighting main features and functionality.
-9. **Documentation**: Provide documentation, including a README file, setup instructions, and user guides.
-10. **Ethical Considerations**: Projects must not promote harmful behavior.
-11. **Withdrawal**: Notify organizers if withdrawing from the
