@@ -28,13 +28,13 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
    ![Login Screen](images/IMAGE1.jpg)
 
 2. **Signup Page**: IF you have not created an account, then move to the signup page page to create an account
-   [Signup Screen](images/IMAGE2.jpg)
+   ![Signup Screen](images/IMAGE2.jpg)
    
 4. **Dashboard Login**: Access the dashboard to view and manage campaigns and the history of the previous campaigns conducted and their records and also success and failure rates of the previous campaign.
-   [Dashboard Screen](images/IMAGE3.jpg)
+   ![Dashboard Screen](images/IMAGE3.jpg)
 
 5. **List of Active email addresses **: Through profiling and tools like [Hunter.IO](https://hunter.io/) we have created a list of active email addresses.
-   [Profiling](images/IMAGE4.jpg)
+   ![Profiling](images/IMAGE4.jpg)
     
 5. **Create New Campaign**: Go to the 'New Campaigns' section and write the campaign name and mention all the input the target domain name.
    ![New Campaign](images/IMAGE5.jpg)
