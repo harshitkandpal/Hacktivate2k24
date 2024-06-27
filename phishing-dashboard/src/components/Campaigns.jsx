@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import CampaignDetail from './CampaignDetail';
 import Papa from 'papaparse';
@@ -12,10 +12,15 @@ const Campaigns = () => {
 
   useEffect(() => {
     const fetchCampaigns = async () => {
-      const querySnapshot = await getDocs(collection(db, 'campaigns'));
-      const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCampaigns(campaignsData);
-      setFilteredCampaigns(campaignsData.slice(0, visibleCampaigns)); // Show initial visible campaigns
+      try {
+        const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCampaigns(campaignsData);
+        setFilteredCampaigns(campaignsData.slice(0, visibleCampaigns)); // Show initial visible campaigns
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+      }
     };
 
     fetchCampaigns();
@@ -49,8 +54,8 @@ const Campaigns = () => {
       csvData.push([
         campaign.name || '',
         campaign.domain || '',
-        new Date(campaign.timestamp * 1000).toLocaleString() || 'N/A',
-        email.email || '',
+        new Date(campaign.timestamp).toLocaleString() || 'N/A',
+        email.email || email.data.emails ||'',
         email.verified ? 'Yes' : 'No',
         email.quality || '',
         email.name || 'N/A'
@@ -69,50 +74,50 @@ const Campaigns = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Styles object
+  // Styles object (unchanged from your previous implementation)
   const styles = {
     container: {
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: '#ffffff', // Text color
-      padding: '20px', // Padding around the content
+      color: '#ffffff',
+      padding: '20px',
     },
     card: {
       width: '100%',
-      borderRadius: '12px', // Rounded corners
-      padding: '20px', // Padding around the content
-      margin: '10px', // Margin for spacing
-      boxShadow: '0 0 10px #59CCB5', // Box shadow with color #59CCB5
+      borderRadius: '12px',
+      padding: '20px',
+      margin: '10px',
+      boxShadow: '0 0 10px #59CCB5',
     },
     input: {
       padding: '10px',
       border: '1px solid #666666',
       borderRadius: '8px',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)', // Semi-transparent white background for input
-      color: '#ffffff', // Text color
-      marginBottom: '10px', // Margin bottom for spacing
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      color: '#ffffff',
+      marginBottom: '10px',
     },
     list: {
-      marginTop: '20px', // Margin top for spacing
-      listStyleType: 'none', // Remove list styles
-      padding: '0', // Remove padding
+      marginTop: '20px',
+      listStyleType: 'none',
+      padding: '0',
     },
     listItem: {
-      padding: '16px', // Padding for each item
-      marginBottom: '10px', // Margin bottom for spacing
-      borderRadius: '8px', // Rounded corners
-      transition: 'background-color 0.3s ease', // Smooth background color transition
+      padding: '16px',
+      marginBottom: '10px',
+      borderRadius: '8px',
+      transition: 'background-color 0.3s ease',
     },
     button: {
-      backgroundColor: '#4caf50', // Green background for button
-      color: '#000000', // Black text color
-      padding: '10px 20px', // Padding for button
-      border: 'none', // No border
-      borderRadius: '8px', // Rounded corners
-      cursor: 'pointer', // Pointer cursor
-      transition: 'background-color 0.3s ease', // Smooth background color transition
+      backgroundColor: '#4caf50',
+      color: '#000000',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
     },
     loadButton: {
       background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
@@ -130,11 +135,11 @@ const Campaigns = () => {
   };
 
   const loadMoreCampaigns = () => {
-    setVisibleCampaigns(prev => prev + 2); // Increase visible campaigns by 2
+    setVisibleCampaigns(prev => prev + 2);
   };
 
   const loadLessCampaigns = () => {
-    setVisibleCampaigns(2); // Reset visible campaigns to 2
+    setVisibleCampaigns(2);
   };
 
   return (
@@ -151,10 +156,10 @@ const Campaigns = () => {
         />
         <ul style={styles.list}>
           {filteredCampaigns.map((campaign, index) => (
-            <li key={index} style={styles.listItem}  >
+            <li key={index} style={styles.listItem}>
               <CampaignDetail campaign={campaign} campaignId={campaign.id} />
               <button
-                className=" px-4 py-2 rounded-lg mt-2" 
+                className="px-4 py-2 rounded-lg mt-2"
                 onClick={() => handleDownloadCSV(campaign)}
                 style={styles.loadButton}
               >

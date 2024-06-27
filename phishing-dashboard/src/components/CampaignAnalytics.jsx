@@ -17,8 +17,8 @@ const CampaignAnalytics = ({ campaign }) => {
   }, [campaign]);
 
   const calculateSuccessRate = () => {
-    if (!campaign || campaign.collectedEmails === 0) return 0;
-    return ((campaign.phishedEmails / campaign.collectedEmails) * 100).toFixed(2);
+    if (!campaign || campaign.data.collectedEmails === 0) return 0;
+    return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2);
   };
 
   const renderCharts = () => {
@@ -37,17 +37,15 @@ const CampaignAnalytics = ({ campaign }) => {
       barChartRef.current.chart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Collected Emails', 'Open Rate', 'Click-Through Rate', 'Phished Emails'],
+          labels: ['Collected Emails','Click-Through Rate'],
           datasets: [
             {
               label: campaign.name,
               data: [
-                campaign.collectedEmails || 0,
-                campaign.openRate || 0,
-                campaign.clickThroughRate || 0,
-                campaign.phishedEmails || 0,
+                campaign.data.collectedEmails || 0,
+                campaign.data.clickThroughRate || 0
               ],
-              backgroundColor: ['#4caf50', '#2196f3', '#ffeb3b', '#f44336'],
+              backgroundColor: ['#4caf50', '#2196f3'],
             },
           ],
         },
