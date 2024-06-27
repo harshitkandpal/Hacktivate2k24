@@ -16,8 +16,8 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 4. **Communication with Bots**: Manages interactions with targets and adjusts tactics based on responses.
 5. **Success Metrics**: Measures the effectiveness of the campaign to identify areas for improvement.
 
-## Tagline
-Demo Link: https://youtu.be/SfrPamDfGvM
+## Video Link
+ https://youtu.be/SfrPamDfGvM
 
 ## How to Use
 
