@@ -19,8 +19,8 @@ AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations
 ## How to Use
 
 1. **Setup**: Clone the repository and install necessary dependencies.
-    ```sh
-npm install
+    ```shn pm install
+
     ```
 
 2. **Dashboard Login**: Access the dashboard to view and manage campaigns. The login screen will appear as shown below:
