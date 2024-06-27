@@ -1,11 +1,11 @@
 # AI-PhishBot
 
-**PHISHING CAMPAIGN SELECTION PROGRAM**
+**PHISHING CAMPAIGN GENERATION PROGRAM**
 AI-PhishBot
 
 ## Tagline
 
-**WRITE A SHORT, SHARP AND ON POINT DESCRIPTION OF YOUR PROJECT**
+**AI-PhishBot allows cybersecurity teams to conduct realistic phishing simulations, providing insights into potential vulnerabilities within an organization. By mimicking legitimate emails and launching sophisticated phishing campaigns, AI-PhishBot helps organizations train employees to recognize and respond to phishing attempts, ultimately improving overall security posture.**
 An AI-driven tool for simulating phishing attacks to enhance cybersecurity training and preparedness.
 
 ## The Problem it Solves
