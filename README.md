@@ -8,7 +8,7 @@ Simulating sophisticated phishing attacks to enhance cybersecurity training and 
 
 This application allows cybersecurity teams to conduct realistic phishing simulations, providing insights into potential vulnerabilities within an organization. By mimicking legitimate emails and launching sophisticated phishing campaigns, AI-PhishBot helps organizations train employees to recognize and respond to phishing attempts, ultimately improving overall security posture.
 
-## Key Features
+## Challanges we ran into
 
 1. **Reconnaissance**: Gathers information to tailor phishing attacks.
 2. **Profiling**: Creates detailed profiles of targets to enhance the realism of phishing attempts.
