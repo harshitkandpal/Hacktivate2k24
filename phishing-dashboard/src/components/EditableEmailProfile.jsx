@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EditableEmailProfile = ({ email, onSave }) => {
   const [editedEmail, setEditedEmail] = useState({ ...email });
+
+  useEffect(() => {
+    setEditedEmail({ ...email });
+  }, [email]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -11,7 +15,6 @@ const EditableEmailProfile = ({ email, onSave }) => {
   const handleSave = () => {
     onSave(editedEmail);
   };
-  
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
@@ -54,34 +57,10 @@ const EditableEmailProfile = ({ email, onSave }) => {
           />
           <input
             type="text"
-            name="seniority"
-            value={editedEmail.seniority || ''}
-            onChange={handleChange}
-            placeholder="Seniority"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
-          />
-          <input
-            type="text"
             name="department"
             value={editedEmail.department || ''}
             onChange={handleChange}
             placeholder="Department"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
-          />
-          <input
-            type="text"
-            name="linkedin"
-            value={editedEmail.linkedin || ''}
-            onChange={handleChange}
-            placeholder="LinkedIn"
-            className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
-          />
-          <input
-            type="text"
-            name="twitter"
-            value={editedEmail.twitter || ''}
-            onChange={handleChange}
-            placeholder="Twitter"
             className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg"
           />
           <input
@@ -95,18 +74,11 @@ const EditableEmailProfile = ({ email, onSave }) => {
         </div>
       </div>
       <button
-        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
         onClick={handleSave}
-        style={{marginRight:'2px'}}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
       >
         Save
       </button>
-      {/* <button
-        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-        onClick={handleSave}
-      >
-        Delete
-      </button> */}
     </div>
   );
 };
