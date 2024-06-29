@@ -54,14 +54,20 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 
 11. **Profiling**: Select an email address from the list to gather detailed information using automated and manual profiling techniques.
 
+   ![Profiling](images/IMAGE6.jpg)
+
 12. **Phishing Email Generation**: Use the AI bot to generate and send phishing emails that mimic legitimate communication styles.
 
+   ![Profiling](images/IMAGE6.jpg)
+   
+   ![Profiling](images/IMAGE7.jpg)
 13. **Phishing Campaign Execution**: Track and document the success of the phishing campaign using metrics like email open rates and click rates.
 
 14. **After clicking on the link**: You can't stop the urge to click and get hacked!
-   ![Dashboard Screen](images/IMAGE9.jpg)
 
-16. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
+   ![Dashboard Screen](images/IMAGE8.jpg)
+
+15. **AI Bot Communication**: Develop bots to respond to phishing emails and refine the campaign based on their responses.
 
 ## Technologies we used
 
