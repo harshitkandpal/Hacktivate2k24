@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI('apikey'); // Replace with your actual API key
+const genAI = new GoogleGenerativeAI('AIzaSyBPvYuY7ewWqhv0a6gklOIk1nYiCWySemw'); // Replace with your actual API key
 
 async function generateEmail(prompt) {
   // The Gemini 1.5 models are versatile and work with text prompts
