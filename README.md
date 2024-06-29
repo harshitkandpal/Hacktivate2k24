@@ -38,7 +38,7 @@ This application allows cybersecurity teams to conduct realistic phishing simula
    
    ![Dashboard Screen](images/IMAGE3.jpg)
 
-4. **List of Active email addresses **: Through profiling and tools like [Hunter.IO](https://hunter.io/) we have created a list of active email addresses.
+4. **List of Active email addresses**: Through profiling and tools like [Hunter.IO](https://hunter.io/) we have created a list of active email addresses.
 
    ![Profiling](images/IMAGE4.jpg)
     
