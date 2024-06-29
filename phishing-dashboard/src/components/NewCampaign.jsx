@@ -13,6 +13,7 @@ import { collection, addDoc, getDoc, doc } from 'firebase/firestore';
 
 const NewCampaign = () => {
   const [data, setData] = useState({
+    name: '', // Added name field here
     domain: '',
     organization: '',
     industry: '',
@@ -24,8 +25,8 @@ const NewCampaign = () => {
     country: '',
     company_type: '',
     description: '',
-    clickThroughRate:0,
-    collectedEmails: 0,
+    clickThroughRate: 1,
+    collectedEmails: 10,
     data: { emails: [] }
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -34,25 +35,23 @@ const NewCampaign = () => {
   const [campaignSaved, setCampaignSaved] = useState(false);
   const [campaignCompleted, setCampaignCompleted] = useState(false); // New state for campaign completion
   const [campaignData, setCampaignData] = useState(null);
+  const [domain, setDomain] = useState('');
 
   const navigate = useNavigate();
 
-  
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${Domain}&api_key=apikey`);
-        const jsonData = await response.json();
-        console.log('Fetched data:', jsonData);
-        setData(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setIsLoading(false);
-      }
-    };
-
-
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=9615080049c281d286cb459e379ddb04be9ea7e4`);
+      const jsonData = await response.json();
+      console.log('Fetched data:', jsonData);
+      setData((prevData) => ({ ...prevData, ...jsonData }));
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -162,7 +161,7 @@ const NewCampaign = () => {
           </div>
         )}
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <FormSection data={data} setData={setData} isLoading={isLoading} />
+          <FormSection data={data} setData={setData} isLoading={isLoading} setDomain={setDomain}/>
           <CompanyProfile data={data} setData={setData} />
           <EmailsTable
             emails={data.data.emails}

@@ -47,18 +47,20 @@ const Campaigns = () => {
     const csvData = [];
 
     // Header row
-    csvData.push(['Campaign Name', 'Domain', 'Created At', 'Email', 'Verified', 'Quality', 'Name']);
+    csvData.push(['Campaign Name', 'Domain', 'Created At', 'EMAIL', 'FIRST NAME', 'LAST NAME', 'POSITION', 'DEPARTMENT', 'PHONE NUMBER']);
 
     // Campaign details row
-    campaign.emails.forEach(email => {
+    campaign.data.emails.forEach(value => {
       csvData.push([
         campaign.name || '',
         campaign.domain || '',
-        new Date(campaign.timestamp).toLocaleString() || 'N/A',
-        email.email || email.data.emails ||'',
-        email.verified ? 'Yes' : 'No',
-        email.quality || '',
-        email.name || 'N/A'
+        new Date(campaign.createdAt).toLocaleString() || 'N/A',
+        value.value || '',
+        value.first_name || 'N/A',
+        value.last_name || 'N/A',
+        value.position || 'N/A',
+        value.department || 'N/A',
+        value.phone_number || 'N/A'
       ]);
     });
 
@@ -73,6 +75,7 @@ const Campaigns = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
+
 
   // Styles object (unchanged from your previous implementation)
   const styles = {

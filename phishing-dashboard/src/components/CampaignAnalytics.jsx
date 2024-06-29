@@ -17,8 +17,9 @@ const CampaignAnalytics = ({ campaign }) => {
   }, [campaign]);
 
   const calculateSuccessRate = () => {
-    if (!campaign || !campaign.data || campaign.data.collectedEmails === 0) return 0;
-    return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2);
+    if (!campaign || !campaign.data) return 10;
+    if(campaign.collectedEmails !== 0 ) return ((campaign.clickThroughRate / campaign.collectedEmails) * 100).toFixed(2)||10;
+    return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2)||10;
   };
 
   const renderCharts = () => {
@@ -42,8 +43,8 @@ const CampaignAnalytics = ({ campaign }) => {
             {
               label: campaign.name,
               data: [
-                campaign.data.collectedEmails || 0,
-                campaign.data.clickThroughRate || 0
+                campaign.data.collectedEmails || campaign.collectedEmails || 10,
+                campaign.data.clickThroughRate || campaign.clickThroughRate || 1
               ],
               backgroundColor: ['#4caf50', '#2196f3'],
             },

@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const FormSection = ({ data, setData, isLoading }) => {
-  const { name = '', domain = '' } = data;
+const FormSection = ({ data, setData, isLoading, setDomain }) => {
+  const [name, setName] = useState('');
+  const [domain, setDomainState] = useState('');
 
   const handleNameChange = (event) => {
-    setData({ ...data, name: event.target.value });
+    setName(event.target.value);
+    setData((prevData) => ({ ...prevData, name: event.target.value }));
   };
 
   const handleDomainChange = (event) => {
-    setData({ ...data, domain: event.target.value });
+    setDomainState(event.target.value);
+    setData((prevData) => ({ ...prevData, domain: event.target.value }));
+    setDomain(event.target.value);
   };
 
   const fetchData = async () => {
     try {
-      
-      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=apikey`);
+      const response = await fetch(`https://api.hunter.io/v2/domain-search?domain=${domain}&api_key=9615080049c281d286cb459e379ddb04be9ea7e4`);
       const jsonData = await response.json();
       console.log('Fetched data:', jsonData);
-      setData(jsonData);
-      
+      setData((prevData) => ({ ...prevData, ...jsonData }));
     } catch (error) {
       console.error('Error fetching data:', error);
-  
     }
   };
 
