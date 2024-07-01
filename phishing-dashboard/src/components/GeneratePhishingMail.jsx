@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CampaignAnalytics from './CampaignAnalytics';
+import CampaignAnalytics from './CampaignAnalytics'; // Adjust the path if necessary
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI('AIzaSyBPvYuY7ewWqhv0a6gklOIk1nYiCWySemw');
@@ -16,6 +16,7 @@ async function run(prompt) {
   return text;
 }
 
+
 const GeneratePhishingMail = ({ onSendMail }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCampaignRunning, setIsCampaignRunning] = useState(false);
@@ -25,6 +26,11 @@ const GeneratePhishingMail = ({ onSendMail }) => {
   });
   const [emailsSentCount, setEmailsSentCount] = useState(0);
   const [campaignCompleted, setCampaignCompleted] = useState(false); // State to track campaign completion
+
+  const companies = ['Google', 'Facebook', 'Amazon', 'Microsoft', 'Apple'];
+  const positions = ['Software Engineer', 'Data Scientist', 'Frontend Developer', 'Backend Developer', 'Product Manager'];
+
+  const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -40,12 +46,16 @@ const GeneratePhishingMail = ({ onSendMail }) => {
     setIsLoading(true);
 
     try {
-      // Subject Prompt (replace with your specific prompt)
-      const subjectPrompt = "Generate a single line subject for an email, which i am sending to inform that the recipients resume has been shortlisted for the Google SDE-2 position. Congratulate first.";
+      // Randomly select a company and position
+      const company = getRandomItem(companies);
+      const position = getRandomItem(positions);
+
+      // Subject Prompt with random company and position
+      const subjectPrompt = `Generate a single line subject for an email, which I am sending to inform that the recipient's resume has been shortlisted for the ${company} ${position} position. Congratulate first.`;
       const subject = await run(subjectPrompt);
 
-      // Description Prompt (replace with your specific prompt)
-      const descriptionPrompt = "Write an email description in 300 words Dont give the subject of the email, give only the body. you are HR manager of Google. you have to right the mail to congratulate the recipient on being short listed. Write that your 'resume has been shortlisted. Fill the info in the given link.' Appreciate the recipient on their skills. The position name is: SDE-2. Reciever's name: Hacker.  Skills to appreciate: Full stack development knowledge, communication skills. Deadline Date to fill details in link is 28th June 2024. link to fill details is: 'http://127.0.0.1:5500/server/index.html'. Senders name: Christina Cian the tone should be catchy. Dont keep any spaces for me to add data, i just directly want to copy your response, so generate accordingly.";
+      // Description Prompt with random company and position
+      const descriptionPrompt = `Write an email description in 300 words. Don't give the subject of the email, give only the body. You are the HR manager of ${company}. You have to write the mail to congratulate the recipient on being shortlisted. Write that your 'resume has been shortlisted. Fill the info in the given link.' Appreciate the recipient on their skills. The position name is: ${position}. Receiver's name: Hacker. Skills to appreciate: Full stack development knowledge, communication skills. Deadline Date to fill details in the link is 28th June 2024. The link to fill details is: 'http://127.0.0.1:5500/server/index.html'. Sender's name: Christina Cian. The tone should be catchy. Don't keep any spaces for me to add data, I just directly want to copy your response, so generate accordingly.`;
       const description = await run(descriptionPrompt);
 
       setMailData({ ...mailData, subject, body: description }); // Update mailData with generated content
@@ -55,7 +65,6 @@ const GeneratePhishingMail = ({ onSendMail }) => {
       setIsLoading(false);
     }
   };
-
 
   const handleStartCampaign = async () => {
     setIsCampaignRunning(true);
@@ -80,32 +89,32 @@ const GeneratePhishingMail = ({ onSendMail }) => {
           });
 
           if (!response.ok) {
-            throw new Error('Failed to send  emails');
+            throw new Error('Failed to send emails');
           }
           const responseData = await response.json();
-          console.log(' emails sent successfully:', responseData);
+          console.log('Emails sent successfully:', responseData);
           setEmailsSentCount(emails.length); // Update emailsSentCount
           setCampaignCompleted(true); // Set campaign completion flag
         } catch (error) {
-          console.error('Error sending  emails:', error);
+          console.error('Error sending emails:', error);
         }
       };
 
       await sendEmailsToServer();
 
       setIsCampaignRunning(false); // Stop campaign after sending
-      console.log(' campaign stopped');
+      console.log('Campaign stopped');
 
     } catch (error) {
-      console.error('Error starting  campaign:', error);
+      console.error('Error starting campaign:', error);
     }
   };
 
   return (
     <div className="bg-gray-700 rounded-lg p-4 mt-4">
-      <h3 className="text-xl font-semibold mb-2">Generate  Mail</h3>
+      <h3 className="text-xl font-semibold mb-2">Generate Mail</h3>
       <div className="mb-4">
-      <label className="block text-white">Subject:</label>
+        <label className="block text-white">Subject:</label>
         <textarea
           name="subject"
           value={mailData.subject}
@@ -125,7 +134,7 @@ const GeneratePhishingMail = ({ onSendMail }) => {
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         onClick={handleGenerateMail}
-        style={{marginRight:'5px'}}
+        style={{ marginRight: '5px' }}
         disabled={isLoading} // Disable Generate Mail button while generating
       >
         Generate Mail
@@ -154,7 +163,7 @@ const GeneratePhishingMail = ({ onSendMail }) => {
       )}
       {campaignCompleted && ( // Conditionally render completion message
         <div className="text-center mt-4 text-green-500">
-           campaign completed successfully!
+          Campaign completed successfully!
         </div>
       )}
       {isCampaignRunning || !isLoading ? (
