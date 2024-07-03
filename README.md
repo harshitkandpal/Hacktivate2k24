@@ -95,5 +95,5 @@ This application allows cybersecurity teams to conduct realistic phishing simula
 
 ## Contact
 
-For more information, please contact [harshitkandpal670@gmail.com](mailto:harshitheroh5@gmail.com) / [hgkhairnar255@outlook.com](mailto:hgkhairnar255@outlook.com)/ [joshuvk16@gmail.com](mailto:joshuvk16@gmail.com).
+For more information, please contact [harshitheroh5@gmail.com](mailto:harshitheroh5@gmail.com) / [hgkhairnar255@outlook.com](mailto:hgkhairnar255@outlook.com)/ [joshuvk16@gmail.com](mailto:joshuvk16@gmail.com).
 
