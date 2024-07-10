@@ -19,7 +19,7 @@ const EmailsTable = ({ emails, onSaveProfile }) => {
   const handleVerifyEmail = async (email) => {
     try {
       const response = await fetch(
-        `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=9615080049c281d286cb459e379ddb04be9ea7e4`
+        
       );
 
 
