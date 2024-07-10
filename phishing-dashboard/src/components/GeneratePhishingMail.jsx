@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CampaignAnalytics from './CampaignAnalytics'; // Adjust the path if necessary
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI('AIzaSyBPvYuY7ewWqhv0a6gklOIk1nYiCWySemw');
+const genAI = new GoogleGenerativeAI();
 
 async function run(prompt) {
   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
