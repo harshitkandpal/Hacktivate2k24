@@ -8,7 +8,7 @@ const Campaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
-  const [visibleCampaigns, setVisibleCampaigns] = useState(2); // Initially show 2 campaigns
+  const [visibleCampaigns, setVisibleCampaigns] = useState(2);
 
   useEffect(() => {
     const fetchCampaigns = async () => {
@@ -17,7 +17,7 @@ const Campaigns = () => {
         const querySnapshot = await getDocs(q);
         const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setCampaigns(campaignsData);
-        setFilteredCampaigns(campaignsData.slice(0, visibleCampaigns)); // Show initial visible campaigns
+        setFilteredCampaigns(campaignsData.slice(0, visibleCampaigns));
       } catch (error) {
         console.error('Error fetching campaigns:', error);
       }
@@ -34,22 +34,18 @@ const Campaigns = () => {
 
   const filterCampaigns = (term) => {
     if (term.trim() === '') {
-      setFilteredCampaigns(campaigns.slice(0, visibleCampaigns)); // Filter visible campaigns
+      setFilteredCampaigns(campaigns.slice(0, visibleCampaigns));
     } else {
       const filtered = campaigns.filter(campaign =>
         campaign.name.toLowerCase().includes(term.toLowerCase())
       );
-      setFilteredCampaigns(filtered.slice(0, visibleCampaigns)); // Filter and limit visible campaigns
+      setFilteredCampaigns(filtered.slice(0, visibleCampaigns));
     }
   };
 
   const handleDownloadCSV = (campaign) => {
     const csvData = [];
-
-    // Header row
     csvData.push(['Campaign Name', 'Domain', 'Created At', 'EMAIL', 'FIRST NAME', 'LAST NAME', 'POSITION', 'DEPARTMENT', 'PHONE NUMBER']);
-
-    // Campaign details row
     campaign.data.emails.forEach(value => {
       csvData.push([
         campaign.name || '',
@@ -63,7 +59,6 @@ const Campaigns = () => {
         value.phone_number || 'N/A'
       ]);
     });
-
     const csv = Papa.unparse(csvData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -76,114 +71,75 @@ const Campaigns = () => {
     URL.revokeObjectURL(url);
   };
 
-
-  // Styles object (unchanged from your previous implementation)
-  const styles = {
-    container: {
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#ffffff',
-      padding: '20px',
-    },
-    card: {
-      width: '100%',
-      borderRadius: '12px',
-      padding: '20px',
-      margin: '10px',
-      boxShadow: '0 0 10px #59CCB5',
-    },
-    input: {
-      padding: '10px',
-      border: '1px solid #666666',
-      borderRadius: '8px',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      color: '#ffffff',
-      marginBottom: '10px',
-    },
-    list: {
-      marginTop: '20px',
-      listStyleType: 'none',
-      padding: '0',
-    },
-    listItem: {
-      padding: '16px',
-      marginBottom: '10px',
-      borderRadius: '8px',
-      transition: 'background-color 0.3s ease',
-    },
-    button: {
-      backgroundColor: '#4caf50',
-      color: '#000000',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-    },
-    loadButton: {
-      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      border: 'none',
-      color: '#ffffff',
-      padding: '10px 20px',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-      '&:hover': {
-        background: 'linear-gradient(45deg, rgba(89, 204, 181, 0.2) 10%, rgba(6, 8, 8, 0.9) 90%)',
-        transition: 'background-color 0.3s ease',
-      }
-    },
-  };
-
-  const loadMoreCampaigns = () => {
-    setVisibleCampaigns(prev => prev + 2);
-  };
-
-  const loadLessCampaigns = () => {
-    setVisibleCampaigns(2);
-  };
+  const loadMoreCampaigns = () => setVisibleCampaigns(prev => prev + 2);
+  const loadLessCampaigns = () => setVisibleCampaigns(2);
 
   return (
-    <div style={styles.container} className={"bg-opacity-25 backdrop-filter backdrop-blur-lg"}>
-      <div style={styles.card} className={"bg-opacity-25 backdrop-filter backdrop-blur-lg"}>
-        <h2 className="text-4xl font-bold p-4">Campaigns</h2>
-        <input
-          type="text"
-          placeholder="Search campaigns..."
-          className="p-2 border border-gray-600 rounded-lg"
-          value={searchTerm}
-          onChange={handleSearchInputChange}
-          style={styles.input}
-        />
-        <ul style={styles.list}>
-          {filteredCampaigns.map((campaign, index) => (
-            <li key={index} style={styles.listItem}>
-              <CampaignDetail campaign={campaign} campaignId={campaign.id} />
+    <div className="w-full">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+          <h2 className="text-3xl font-bold text-white mb-2">Active Campaigns</h2>
+          <p className="text-gray-400">Monitor and analyze your deployed phishing operations.</p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative w-full md:w-auto">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg className="h-5 w-5 text-cyber-accent opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="Search campaigns..."
+            className="w-full md:w-80 bg-[#0a1118] border border-white/10 text-white rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-cyber-accent focus:border-cyber-accent transition-all placeholder-gray-600"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {filteredCampaigns.map((campaign, index) => (
+          <div key={index} className="bg-[#0c141d]/80 border border-white/5 hover:border-cyber-accent/30 rounded-2xl p-6 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group">
+
+            <CampaignDetail campaign={campaign} campaignId={campaign.id} />
+
+            <div className="mt-6 flex justify-end border-t border-white/5 pt-4">
               <button
-                className="px-4 py-2 rounded-lg mt-2"
+                className="flex items-center gap-2 px-4 py-2 bg-transparent hover:bg-cyber-primary/20 text-cyber-accent border border-cyber-accent/30 rounded-lg transition-colors text-sm font-semibold"
                 onClick={() => handleDownloadCSV(campaign)}
-                style={styles.loadButton}
               >
-                Download CSV
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Export CSV Data
               </button>
-            </li>
-          ))}
-        </ul>
-        {visibleCampaigns < campaigns.length ? (
+            </div>
+          </div>
+        ))}
+
+        {filteredCampaigns.length === 0 && (
+          <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl bg-white/5">
+            <p className="text-gray-500">No campaigns found. Ready to initialize a new operation?</p>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 flex justify-center gap-4">
+        {visibleCampaigns < campaigns.length && (
           <button
-            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="px-6 py-2.5 rounded-lg bg-cyber-primary text-white font-medium hover:bg-cyber-primary/80 transition-colors shadow-lg"
             onClick={loadMoreCampaigns}
           >
-            Load More
+            Load More Archives
           </button>
-        ) : (
+        )}
+
+        {visibleCampaigns > 2 && (
           <button
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="px-6 py-2.5 rounded-lg bg-transparent border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 font-medium transition-colors"
             onClick={loadLessCampaigns}
           >
-            Load Less
+            Show Less
           </button>
         )}
       </div>

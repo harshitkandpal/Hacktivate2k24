@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import CampaignAnalytics from './CampaignAnalytics'; // Adjust the path if necessary
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI();
+const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
 
 async function run(prompt) {
   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
@@ -77,7 +77,7 @@ const GeneratePhishingMail = ({ onSendMail }) => {
       const data = await response.json();
 
       const emails = data.emails; // Assuming emails are in an array in emails.json
-      
+
       const sendEmailsToServer = async () => {
         try {
           const response = await fetch('http://localhost:3001/send-emails', {
@@ -111,66 +111,96 @@ const GeneratePhishingMail = ({ onSendMail }) => {
   };
 
   return (
-    <div className="bg-gray-700 rounded-lg p-4 mt-4">
-      <h3 className="text-xl font-semibold mb-2">Generate Mail</h3>
-      <div className="mb-4">
-        <label className="block text-white">Subject:</label>
-        <textarea
-          name="subject"
-          value={mailData.subject}
-          onChange={handleChange}
-          className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg"
-          disabled={isLoading} // Disable subject field while generating
-        />
-        <label className="block text-white">Body:</label>
-        <textarea
-          name="body"
-          value={mailData.body}
-          onChange={handleChange}
-          className="w-full px-3 py-2 bg-gray-800 text-white border border-gray-600 rounded-lg"
-          disabled={isLoading} // Disable body field while generating
-        />
+    <div className="border border-white/5 bg-[#0a1118]/80 p-6 rounded-xl relative overflow-hidden group hover:border-cyber-accent/30 transition-all">
+      <h3 className="text-xl font-bold font-tech text-white tracking-widest flex items-center gap-2 mb-6">
+        <svg className="w-6 h-6 text-cyber-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        PAYLOAD GENERATOR
+      </h3>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label className="block text-gray-400 font-mono text-sm tracking-widest uppercase mb-2">Payload Subject Header</label>
+          <input
+            name="subject"
+            value={mailData.subject}
+            onChange={handleChange}
+            placeholder="[Auto-generated subject line...] "
+            className="w-full px-4 py-3 bg-[#050a0f] text-cyber-accent font-mono border border-white/20 rounded-lg shadow-inner focus:outline-none focus:border-cyber-accent focus:ring-1 focus:ring-cyber-accent transition-all placeholder-gray-700 disabled:opacity-50"
+            disabled={isLoading}
+          />
+        </div>
+        <div>
+          <label className="block text-gray-400 font-mono text-sm tracking-widest uppercase mb-2">Payload Body Content</label>
+          <textarea
+            name="body"
+            value={mailData.body}
+            onChange={handleChange}
+            placeholder="[Auto-generated email body...]"
+            className="w-full px-4 py-3 bg-[#050a0f] text-white font-mono text-sm border border-white/20 rounded-lg shadow-inner focus:outline-none focus:border-cyber-accent focus:ring-1 focus:ring-cyber-accent transition-all placeholder-gray-700 min-h-[150px] disabled:opacity-50"
+            disabled={isLoading}
+          />
+        </div>
       </div>
-      <button
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        onClick={handleGenerateMail}
-        style={{ marginRight: '5px' }}
-        disabled={isLoading} // Disable Generate Mail button while generating
-      >
-        Generate Mail
-      </button>
-      {!isCampaignRunning ? (
+
+      <div className="flex flex-col sm:flex-row gap-4 items-center border-t border-white/5 pt-6 mt-6">
         <button
-          type="button"
-          onClick={handleStartCampaign}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
+          className="w-full sm:w-auto bg-transparent border border-cyber-accent text-cyber-accent hover:bg-cyber-accent hover:text-black font-bold tracking-wider uppercase text-sm py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-wait flex items-center justify-center gap-2 shadow-[0_0_10px_rgba(0,255,204,0.1)]"
+          onClick={handleGenerateMail}
+          disabled={isLoading}
         >
-          Start Campaign
+          {isLoading ? (
+            <>
+              <svg className="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              SYNTHESIZING...
+            </>
+          ) : (
+            '1. SYNTHESIZE PAYLOAD'
+          )}
         </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => setIsCampaignRunning(false)}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
-        >
-          Stop Campaign
-        </button>
-      )}
-      {emailsSentCount > 0 && (
-        <div className="text-center mt-4 text-gray-400">
-          {emailsSentCount} email{emailsSentCount !== 1 ? 's' : ''} sent
-        </div>
-      )}
-      {campaignCompleted && ( // Conditionally render completion message
-        <div className="text-center mt-4 text-green-500">
-          Campaign completed successfully!
-        </div>
-      )}
+
+        <div className="hidden sm:block text-gray-600 font-mono">&rarr;</div>
+
+        {!isCampaignRunning ? (
+          <button
+            type="button"
+            onClick={handleStartCampaign}
+            disabled={!mailData.subject || !mailData.body}
+            className="w-full sm:w-auto bg-cyber-primary/20 border border-cyber-primary text-cyber-primary hover:bg-cyber-primary hover:text-black font-bold tracking-wider uppercase text-sm py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-cyber-primary disabled:cursor-not-allowed shadow-[0_0_10px_rgba(0,255,204,0.1)]"
+          >
+            2. LAUNCH CAMPAIGN
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsCampaignRunning(false)}
+            className="w-full sm:w-auto bg-red-900/40 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold tracking-wider uppercase text-sm py-3 px-6 rounded-lg transition-all duration-300 animate-pulse"
+          >
+            ABORT OPERATION
+          </button>
+        )}
+      </div>
+
+      {/* Status Messages */}
+      <div className="mt-6 font-mono text-sm border-t border-white/5 pt-4">
+        {emailsSentCount > 0 && (
+          <div className="text-cyber-accent flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyber-accent shadow-[0_0_10px_#00ffcc]"></span>
+            SUCCESS: {emailsSentCount} TARGET{emailsSentCount !== 1 ? 'S' : ''} INFILTRATED
+          </div>
+        )}
+        {campaignCompleted && (
+          <div className="text-green-500 mt-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></span>
+            OPERATION COMPLETED SUCCESSFULLY
+          </div>
+        )}
+      </div>
+
       {isCampaignRunning || !isLoading ? (
         <CampaignAnalytics campaign={''} />
       ) : (
-        <div className="text-center mt-8 text-gray-400">
-          Analytics will appear here once the campaign is running or stopped.
+        <div className="text-center mt-8 text-gray-500 font-mono text-xs uppercase tracking-widest border border-dashed border-white/10 p-4 rounded-lg">
+          Telemetry inactive. Awaiting campaign execution...
         </div>
       )}
     </div>

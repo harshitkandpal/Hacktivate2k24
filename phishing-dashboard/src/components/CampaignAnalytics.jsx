@@ -18,8 +18,8 @@ const CampaignAnalytics = ({ campaign }) => {
 
   const calculateSuccessRate = () => {
     if (!campaign || !campaign.data) return 10;
-    if(campaign.collectedEmails !== 0 ) return ((campaign.clickThroughRate / campaign.collectedEmails) * 100).toFixed(2)||10;
-    return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2)||10;
+    if (campaign.collectedEmails !== 0) return ((campaign.clickThroughRate / campaign.collectedEmails) * 100).toFixed(2) || 10;
+    return ((campaign.data.clickThroughRate / campaign.data.collectedEmails) * 100).toFixed(2) || 10;
   };
 
   const renderCharts = () => {
@@ -38,7 +38,7 @@ const CampaignAnalytics = ({ campaign }) => {
       barChartRef.current.chart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Collected Emails','Click-Through Rate'],
+          labels: ['Extracted Targets', 'Interaction Rate'],
           datasets: [
             {
               label: campaign.name,
@@ -46,7 +46,9 @@ const CampaignAnalytics = ({ campaign }) => {
                 campaign.data.collectedEmails || campaign.collectedEmails || 10,
                 campaign.data.clickThroughRate || campaign.clickThroughRate || 1
               ],
-              backgroundColor: ['#4caf50', '#2196f3'],
+              backgroundColor: ['#00ffcc', '#0c66e4'],
+              borderColor: ['#00ffcc', '#0c66e4'],
+              borderWidth: 1,
             },
           ],
         },
@@ -58,19 +60,24 @@ const CampaignAnalytics = ({ campaign }) => {
               display: true,
               position: 'right',
               labels: {
-                color: 'white', // Legend label color
+                color: '#9ca3af', // Legend label color - gray-400
+                font: { family: 'monospace' }
               },
             },
           },
           scales: {
             x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
               ticks: {
-                color: 'white', // X-axis label color
+                color: '#9ca3af', // X-axis label color - gray-400
+                font: { family: 'monospace' }
               },
             },
             y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
               ticks: {
-                color: 'white', // Y-axis label color
+                color: '#9ca3af', // Y-axis label color - gray-400
+                font: { family: 'monospace' }
               },
             },
           },
@@ -86,18 +93,21 @@ const CampaignAnalytics = ({ campaign }) => {
       }
       const ctx = pieChartRef.current.getContext('2d');
       pieChartRef.current.chart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
-          labels: ['Success Rate', 'Failure Rate'],
+          labels: ['Compromised', 'Secure'],
           datasets: [
             {
-              label: 'Phishing Success vs Failure',
+              label: 'Infiltration Success vs Failure',
               data: [calculateSuccessRate(), 100 - calculateSuccessRate()],
-              backgroundColor: ['#f44336', '#4caf50'],
+              backgroundColor: ['#ef4444', '#00ffcc'],
+              borderColor: 'rgba(10, 17, 24, 1)',
+              borderWidth: 2,
             },
           ],
         },
         options: {
+          cutout: '75%',
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
@@ -105,7 +115,8 @@ const CampaignAnalytics = ({ campaign }) => {
               display: true,
               position: 'right',
               labels: {
-                color: 'white', // Legend label color
+                color: '#9ca3af', // Legend label color
+                font: { family: 'monospace' }
               },
             },
           },
@@ -128,25 +139,49 @@ const CampaignAnalytics = ({ campaign }) => {
   }
 
   return (
-    <div className="mt-4 flex justify-between bg-opacity-25 backdrop-filter backdrop-blur-lg">
-      <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pr-4">
-        <div className="mb-4" style={{ width: '500px', height: '500px', borderRadius: '12px' }}>
-          <h5 className="text-lg font-bold mb-2 text-white">General Analytics:</h5>
-          <canvas ref={barChartRef}></canvas>
+    <div className="border border-white/5 bg-[#0a1118]/80 p-6 rounded-xl overflow-hidden mt-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+      <h3 className="text-sm font-tech text-gray-400 tracking-widest uppercase mb-6 flex items-center gap-2 m-0 border-b border-white/5 pb-4">
+        <svg className="w-4 h-4 text-cyber-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+        OPERATION TELEMETRY DASHBOARD
+      </h3>
+
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="w-full md:w-1/2 bg-[#050a0f] border border-white/5 rounded-lg p-4">
+          <h5 className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-4">Volume Metrics</h5>
+          <div className="w-full h-[300px]">
+            <canvas ref={barChartRef}></canvas>
+          </div>
         </div>
-      </div>
-      <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mb-4 pl-4">
-        <h4 className="text-xl font-bold mb-2 text-white">Phishing Success vs Failure:</h4>
-        <div style={{ width: '500px', height: '400px', borderRadius: '12px' }}>
-          <canvas ref={pieChartRef}></canvas>
-          <div className="ml-4">
-            <h5 className="text-lg font-bold mb-2 text-white">Phishing Success Rate:</h5>
-            <p className="mb-2 text-white">
-              <strong>Success Rate:</strong> {calculateSuccessRate()}%
-            </p>
-            <p className="mb-2 text-white">
-              <strong>Failure Rate:</strong> {(100 - calculateSuccessRate()).toFixed(2)}%
-            </p>
+
+        <div className="w-full md:w-1/2 bg-[#050a0f] border border-white/5 rounded-lg p-4 flex flex-col">
+          <h4 className="text-xs font-mono text-gray-400 uppercase tracking-widest mb-4">Infiltration Efficacy</h4>
+
+          <div className="flex-1 flex items-center justify-center relative min-h-[200px]">
+            <div className="w-full h-[220px] flex items-center justify-center relative">
+              <div className="w-[85%] h-full">
+                <canvas ref={pieChartRef}></canvas>
+              </div>
+            </div>
+
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pr-[25%] lg:pr-[30%]">
+              <span className="text-3xl font-bold font-tech text-red-500 tracking-tighter shadow-red-500/50 drop-shadow-md">
+                {calculateSuccessRate()}%
+              </span>
+              <span className="text-[9px] text-gray-500 font-mono tracking-widest uppercase mt-1">
+                COMPROMISED
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-2 gap-4 text-center">
+            <div className="bg-red-900/10 border border-red-500/20 rounded p-2">
+              <span className="block text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">Breach Rate</span>
+              <span className="block text-red-400 font-mono font-bold">{calculateSuccessRate()}%</span>
+            </div>
+            <div className="bg-green-900/10 border border-green-500/20 rounded p-2">
+              <span className="block text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">Defense Rate</span>
+              <span className="block text-green-400 font-mono font-bold">{(100 - calculateSuccessRate()).toFixed(2)}%</span>
+            </div>
           </div>
         </div>
       </div>

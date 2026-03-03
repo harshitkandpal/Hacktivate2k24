@@ -1,14 +1,14 @@
 // src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './output.css'; // Import Tailwind CSS
+import './input.css'; // Import Tailwind CSS via CRA's PostCSS loader
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App className="bg-black"/>
+    <App className="bg-black" />
   </React.StrictMode>
 );
 

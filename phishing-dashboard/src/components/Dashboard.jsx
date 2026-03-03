@@ -63,91 +63,88 @@ const Dashboard = () => {
     setView('profile');
   };
 
-  const styles = {
-    container: {
-      background: '#060808',
-      color: '#fff'
-    },
-    dashContainer: {
-      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      padding: '1rem 2rem',
-      position: 'relative', // Ensure relative positioning for pseudo-element
-    },
-    curveBorder: {
-      position: 'absolute',
-      left: 0,
-      bottom: '-10px', // Adjust this value to control the curve's depth
-      width: '100%',
-      height: '10px', // Adjust height as needed
-      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      borderBottomLeftRadius: '50%',
-      borderBottomRightRadius: '50%',
-      zIndex: 1,
-      boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.1)', // Optional: Add shadow for depth
-    },
-    logout_btn: {
-      color: '#59CCB5'
-    },
-    btn: {
-      backgroundImage: 'linear-gradient(to right, #59CCB5, #0F4364)',
-      backgroundSize: '200% auto',
-      transition: 'background-position 0.5s ease',
-      color: 'white',
-      '&:hover': {
-        backgroundPosition: 'right center',
-      },
-    },
-    buttonContainer: {
-      display: 'flex',
-      gap: '1rem',
-    },
-  }
-
   return (
-    <div style={styles.container} className="min-h-screen flex flex-col items-center justify-center">
-      <div className="w-full rounded-lg space-y-4">
-        <div className="flex justify-between items-center w-full mb-4 px-4" style={styles.dashContainer}>
-          <h2 className="text-5xl font-bold">Dashboard</h2>
-          <div style={styles.buttonContainer}>
-            <button 
-              style={styles.logout_btn}
-              onMouseEnter={(e) => e.target.style.color = '#797C7C'}
-              onMouseLeave={(e) => e.target.style.color = '#59CCB5'}
-              onClick={handleLogout} 
-              className="text-m font-medium px-4 py-2 rounded-md">Logout</button>
-            {view === 'list' && (
-              <button 
-                onClick={() => setView('create')} 
-                className="text-sm font-medium px-4 py-2 rounded-md" 
-                style={styles.btn}>
-                New Campaign
+    <div className="min-h-screen bg-cyber-dark text-gray-200 font-sans">
+
+      {/* Top Navbar / Header */}
+      <nav className="fixed w-full z-50 bg-[#0c141d]/80 backdrop-blur-lg border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-cyber-accent/10 border border-cyber-accent/30 flex items-center justify-center">
+                <div className="w-4 h-4 bg-cyber-accent rounded-sm animate-pulse"></div>
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight text-white">
+                Command <span className="text-cyber-accent">Center</span>
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {view === 'list' ? (
+                <button
+                  onClick={() => setView('create')}
+                  className="px-5 py-2 rounded-lg bg-cyber-accent text-black font-semibold hover:shadow-[0_0_15px_rgba(0,255,204,0.4)] transition-all flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                  New Campaign
+                </button>
+              ) : (
+                <button
+                  onClick={() => setView('list')}
+                  className="px-5 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-gray-300 font-semibold transition-all flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                  Back to Campaigns
+                </button>
+              )}
+
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 font-medium transition-all"
+              >
+                Logout
               </button>
-            )}
-            {view !== 'list' && (
-              <button 
-                onClick={() => setView('list')} 
-                className="text-sm font-medium px-4 py-2 rounded-md" 
-                style={styles.btn}>
-                Back to Campaigns
-              </button>
-            )}
+            </div>
           </div>
-          <div style={styles.curveBorder}></div>
         </div>
-        {view === 'list' ? (
-          <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
-            <Campaigns campaigns={campaigns} onProfileEmail={handleProfileEmail} />
+      </nav>
+
+      {/* Main Content Area */}
+      <main className="pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
+        <div className="bg-[#0c141d]/60 backdrop-blur-xl border border-white/5 rounded-2xl shadow-xl overflow-hidden relative">
+
+          {/* subtle glow at top of container */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyber-accent/50 to-transparent"></div>
+
+          <div className="p-8">
+            {view === 'list' && (
+              <div className="animate-fadeIn">
+                <Campaigns campaigns={campaigns} onProfileEmail={handleProfileEmail} />
+              </div>
+            )}
+
+            {view === 'profile' && (
+              <div className="animate-fadeIn">
+                <h2 className="text-xl text-cyber-accent mb-6 flex items-center gap-2">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                  Target Intelligence Profile
+                </h2>
+                <Profile campaignId={selectedCampaign} email={selectedEmail} />
+              </div>
+            )}
+
+            {view === 'create' && (
+              <div className="animate-fadeIn">
+                <h2 className="text-xl text-cyber-accent mb-6 flex items-center gap-2">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  Deploy New Operation
+                </h2>
+                <NewCampaign onCreateCampaign={handleCreateCampaign} />
+              </div>
+            )}
           </div>
-        ) : view === 'profile' ? (
-          <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
-            <Profile campaignId={selectedCampaign} email={selectedEmail} />
-          </div>
-        ) : (
-          <div className="px-4" style={styles.dashContainer}> {/* Reduced padding */}
-            <NewCampaign onCreateCampaign={handleCreateCampaign} />
-          </div>
-        )}
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

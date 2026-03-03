@@ -33,119 +33,95 @@ const LoginPage = () => {
     navigate('/signup');
   };
 
-  const styles = {
-    container: {
-      backgroundImage: `url(${process.env.PUBLIC_URL}/images/phishing_cyber_attack.jpg)`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'flex-end',
-    },
-    formContainer: {
-      background: 'linear-gradient(135deg, rgba(89, 204, 181, 0.1) 10%, rgba(6, 8, 8, 0.7) 90%)',
-      padding: '1.8rem', // 24px / 16px = 1.5rem
-      margin: '4rem', // 128px / 16px = 8rem
-      borderRadius: '0.5rem', // 8px / 16px = 0.5rem
-      boxShadow: '0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)', // 4px / 16px = 0.25rem, 6px / 16px = 0.375rem
-      backdropFilter: 'blur(0.625rem)', // 10px / 16px = 0.625rem
-      border: '0.0625rem solid rgba(255, 255, 255, 0.18)', // 1px / 16px = 0.0625rem
-    },
-    heading: {
-      fontSize: '3rem', // 24px / 16px = 1.5rem
-      fontWeight: 'bold',
-      marginBottom: '1rem', // 16px / 16px = 1rem
-    },
-    label: {
-      display: 'block',
-      color: 'white',
-      marginBottom: '0.5rem', // 8px / 16px = 0.5rem
-    },
-    input: {
-      width: '100%',
-      padding: '0.5rem', // 8px / 16px = 0.5rem
-      border: '0.0625rem solid #4A5568', // 1px / 16px = 0.0625rem
-      backgroundColor: '#1A202C',
-      color: 'white',
-      borderRadius: '0.25rem', // 4px / 16px = 0.25rem
-      marginBottom: '1rem', // 16px / 16px = 1rem
-    },
-    button: {
-      width: '100%',
-      padding: '0.5rem', // 8px / 16px = 0.5rem
-      borderRadius: '0.25rem', // 4px / 16px = 0.25rem
-      marginBottom: '1rem', // 16px / 16px = 1rem
-    },
-    loginButton: {
-      backgroundColor: '#C7C8C8',
-      color: 'white',
-    },
-    googleButton: {
-      backgroundColor: '#59CCB5',
-      color: 'white',
-    },
-    signUpButton: {
-      backgroundColor: '#4A5568',
-      color: 'white',
-    },
-    buttonContainer: {
-      display: 'flex',
-      gap: '1rem', // 16px / 16px = 1rem
-    },
-    buttonFlex: {
-      flex: 1,
-    },
-    welcomeMessage: {
-      position: 'absolute',
-      top: '0.5rem',
-      left: '35%',
-      transform: 'translateX(-50%)',
-      fontSize: '4rem',
-      fontWeight: 'bold',
-      zIndex: 10,
-      letterSpacing: '-0.025em', // Reduce letter spacing
-      textShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.5)', // Add text shadow
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <div style={styles.welcomeMessage}><h1>Unlock the secrets of phishing attacks</h1></div>
-      <div style={styles.formContainer}>
-        <h2 style={styles.heading}>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label style={styles.label}><span>Email</span></label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={styles.input}
-              required
-            />
+    <div className="min-h-screen bg-cyber-dark text-gray-200 font-sans relative flex flex-col justify-center items-center overflow-hidden">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyber-accent rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse-slow"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-pulse-slow object-none"></div>
+
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto flex gap-12 items-center justify-between p-8">
+
+        {/* Left Side: Branding/Hero */}
+        <div className="flex-1 animate-float">
+          <div className="inline-block px-4 py-1.5 rounded-full border border-cyber-accent/30 bg-cyber-accent/10 text-cyber-accent text-sm font-semibold tracking-wider uppercase mb-6 shadow-[0_0_15px_rgba(0,255,204,0.15)]">
+            AI-PhishBot v2.0
           </div>
-          <div className="mb-4">
-            <label style={styles.label}><span>Password</span></label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={styles.input}
-              required
-            />
+          <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight text-white drop-shadow-md">
+            Unlock the Secrets of <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-accent to-[#0099ff] drop-shadow-[0_0_25px_rgba(0,255,204,0.4)]">
+              Phishing Attacks.
+            </span>
+          </h1>
+          <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
+            Empower your security teams with advanced AI-driven phishing simulations. Target, track, and train your organization against modern cyber threats.
+          </p>
+        </div>
+
+        {/* Right Side: Login Card */}
+        <div className="w-[450px] bg-cyber-card/60 backdrop-blur-xl border border-white/10 p-10 rounded-3xl shadow-2xl relative group">
+
+          {/* Subtle Glow Border inside card */}
+          <div className="absolute -inset-[1px] bg-gradient-to-b from-cyber-accent/30 to-transparent rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+
+          <h2 className="text-3xl font-extrabold text-white mb-2">Secure Login</h2>
+          <p className="text-gray-400 mb-8 text-sm">Access your command center.</p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Email Terminal</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-[#0a1118] border border-white/10 text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-cyber-accent focus:border-transparent transition-all placeholder-gray-600"
+                placeholder="agent@domain.com"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Passcode</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-[#0a1118] border border-white/10 text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-cyber-accent focus:border-transparent transition-all placeholder-gray-600"
+                placeholder="••••••••••"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-cyber-accent text-black font-bold text-lg py-4 rounded-xl hover:bg-white transition-all transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,255,204,0.3)] duration-300"
+            >
+              Initialize Session
+            </button>
+          </form>
+
+          <div className="mt-8 flex items-center mb-8">
+            <div className="flex-grow border-t border-white/10"></div>
+            <span className="mx-4 text-xs text-gray-500 uppercase font-semibold">or access via</span>
+            <div className="flex-grow border-t border-white/10"></div>
           </div>
-          <button type="submit" style={{ ...styles.button, ...styles.loginButton }}>
-            Login
-          </button>
-        </form>
-        <div style={styles.buttonContainer}>
-          <button type="button" onClick={handleGoToSignUp} style={{ ...styles.button, ...styles.signUpButton, ...styles.buttonFlex }}>
-            Go to Sign Up
-          </button>
-          <button type="button" onClick={handleGoogleSignIn} style={{ ...styles.button, ...styles.googleButton, ...styles.buttonFlex }}>
-            Login with Google
-          </button>
+
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="flex items-center justify-center gap-2 bg-[#1a2332] hover:bg-[#253043] border border-white/5 py-3 rounded-xl text-sm font-semibold transition-colors"
+            >
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
+              Google SSO
+            </button>
+            <button
+              type="button"
+              onClick={handleGoToSignUp}
+              className="bg-transparent hover:bg-white/5 border border-white/10 py-3 rounded-xl text-sm font-semibold transition-colors"
+            >
+              Request Access
+            </button>
+          </div>
         </div>
       </div>
     </div>

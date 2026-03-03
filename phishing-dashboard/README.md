@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Cyber Phishing Dashboard ⚡
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A high-tech, modern command center UI designated for AI-driven operational target intelligence and phishing simulation testing. It features a completely responsive, dark glassmorphic cybersecurity-themed user interface equipped with analytical telemetry charts and intelligence data grids. 
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Dashboard Operations Center**: Extract and display target network domain data
+- **Manual & CSV Batch Target Ingestion**: Rapidly inject new targets for simulation campaigns
+- **AI Payload Generation Interface**: Uses Gemini API/Custom ML to craft sophisticated simulation emails
+- **Telemetry Charts**: Interactive analytics charting infiltration success and failure rates.
+- **Modern Cyber Aesthetics**: Complete neon, glassmorphism, responsive interface.
 
-### `npm start`
+## Quick Start Guide
 
-Runs the app in the development mode.\
+### 1. Environment Configuration
+
+To prevent exposing credentials to public repositories (like GitHub), we use environment variables.
+
+1. Clone the repository and navigate to the project root.
+2. Create a new file named `.env` in the root directory.
+3. Copy the contents of `.env.example` into your new `.env` file and replace the placeholder strings with your actual Firebase Configuration credentials.
+
+```bash
+REACT_APP_FIREBASE_API_KEY="your_firebase_api_key_here"
+REACT_APP_FIREBASE_AUTH_DOMAIN="your_firebase_auth_domain_here"
+# ...other firebase config
+REACT_APP_GEMINI_API_KEY="your_gemini_api_key_here"
+```
+
+*Note: The `.env` file is excluded from git via `.gitignore` to ensure your keys remain safe!*
+
+### 2. Installation
+
+Install all required dependencies:
+
+```bash
+npm install
+```
+
+### 3. Launch Development Server
+
+Once your environment is set up and dependencies are installed, you can launch the app locally:
+
+```bash
+npm start
+```
+
+This will run the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Theme & UI
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This application leans heavily on **Tailwind CSS**. Custom cyber-themed colors such as `cyber-primary` and `cyber-accent` have been configured directly into the Tailwind input directives using standard Hex colors like `#00ffcc`.

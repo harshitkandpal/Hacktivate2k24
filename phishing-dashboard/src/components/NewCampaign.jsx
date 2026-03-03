@@ -152,42 +152,76 @@ const NewCampaign = () => {
   console.log('Campaign Data:', data);
 
   return (
-    <div className="bg-opacity-25 backdrop-filter backdrop-blur-lg min-h-screen bg-gray-900 text-white p-4 rounded-2xl">
-      <h2 className="text-4xl font-bold text-center p-5">New Campaign</h2>
-      <div className="bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
+    <div className="w-full relative">
+      <div className="bg-[#0a1118]/80 border border-white/5 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] p-8 relative overflow-hidden">
+        {/* subtle glow at top of card */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyber-accent/30 to-transparent"></div>
+
         {campaignSaved && (
-          <div className="bg-green-500 text-white font-bold py-2 px-4 rounded mt-4 text-center">
-            Campaign saved successfully!
+          <div className="mb-8 border border-cyber-accent/30 bg-cyber-accent/10 px-4 py-3 rounded-lg flex items-center gap-3">
+            <svg className="w-5 h-5 text-cyber-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span className="text-cyber-accent font-mono text-sm">OPERATION SAVED AND READY FOR DEPLOYMENT</span>
           </div>
         )}
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <FormSection data={data} setData={setData} isLoading={isLoading} setDomain={setDomain}/>
+
+        <form className="space-y-0" onSubmit={handleSubmit}>
+          <FormSection data={data} setData={setData} isLoading={isLoading} setDomain={setDomain} />
           <CompanyProfile data={data} setData={setData} />
-          <EmailsTable
-            emails={data.data.emails}
-            selectedEmailIndex={selectedEmailIndex}
-            onEmailClick={handleEmailClick}
-            isEditMode={isEditMode}
-            onSaveProfile={handleSaveProfile}
-            onSaveEmail={handleSaveEmail}
-          />
-          <UploadCSV onAddEmails={handleUploadCSV} />
-          <AddEmailManually onAddEmails={handleAddEmails} />
-          <GeneratePhishingMail onSendMail={handleFetchAndSendEmail} /> {/* Pass the function here */}
-          <Chatbot emails={data.data.emails || []} />
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
-            Save Campaign
-          </button>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-white/5 mt-6">
+            <div className="space-y-0 relative">
+              <UploadCSV onAddEmails={handleUploadCSV} />
+              <AddEmailManually onAddEmails={handleAddEmails} />
+            </div>
+            <div>
+              <EmailsTable
+                emails={data.data.emails}
+                selectedEmailIndex={selectedEmailIndex}
+                onEmailClick={handleEmailClick}
+                isEditMode={isEditMode}
+                onSaveProfile={handleSaveProfile}
+                onSaveEmail={handleSaveEmail}
+              />
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-white/5 mt-6">
+            <GeneratePhishingMail onSendMail={handleFetchAndSendEmail} />
+          </div>
+
+          <div className="pt-6 border-t border-white/5 mt-6">
+            <Chatbot emails={data.data.emails || []} />
+          </div>
+
+          <div className="pt-8 flex gap-4 mt-8 border-t border-white/5">
+            <button
+              type="submit"
+              className="px-8 py-3 bg-cyber-primary/20 text-cyber-primary border border-cyber-primary font-bold rounded-xl hover:bg-cyber-primary hover:text-black hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center gap-2 tracking-wider uppercase"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+              Save Parameters
+            </button>
+
+            {campaignSaved && !campaignCompleted && (
+              <button
+                type="button"
+                onClick={handleCompleteCampaign}
+                className="px-8 py-3 bg-cyber-accent/20 text-cyber-accent border border-cyber-accent font-bold rounded-xl hover:bg-cyber-accent hover:text-black hover:shadow-[0_0_15px_rgba(0,255,204,0.4)] transition-all duration-300 flex items-center gap-2 tracking-wider uppercase"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Deploy Now
+              </button>
+            )}
+          </div>
         </form>
-        {campaignSaved && !campaignCompleted && (
-          <button onClick={handleCompleteCampaign} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4">
-            Complete Campaign
-          </button>
-        )}
+
         {campaignCompleted && (
-          <div className="bg-green-500 text-white font-bold py-2 px-4 rounded mt-4 text-center">
-            Phishing campaign completed successfully!
-            <CampaignAnalytics campaign={data}/>
+          <div className="mt-8">
+            <div className="mb-6 border border-cyber-accent/30 bg-cyber-accent/10 px-4 py-3 rounded-lg flex items-center gap-3">
+              <svg className="w-5 h-5 text-cyber-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              <span className="text-cyber-accent font-mono text-sm uppercase tracking-widest">Operation Successfully Deployed</span>
+            </div>
+            <CampaignAnalytics campaign={data} />
           </div>
         )}
       </div>

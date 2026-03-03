@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import CampaignAnalytics from './CampaignAnalytics';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI();
+const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
 
 async function run(prompt) {
   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
@@ -68,7 +68,7 @@ const GenerateMail = ({ onSendMail }) => {
       const data = await response.json();
 
       const emails = data.emails; // Assuming emails are in an array in emails.json
-      
+
       const sendEmailsToServer = async () => {
         try {
           const response = await fetch('http://localhost:3001/send-emails', {
@@ -105,7 +105,7 @@ const GenerateMail = ({ onSendMail }) => {
     <div className="bg-gray-700 rounded-lg p-4 mt-4">
       <h3 className="text-xl font-semibold mb-2">Generate  Mail</h3>
       <div className="mb-4">
-      <label className="block text-white">Subject:</label>
+        <label className="block text-white">Subject:</label>
         <textarea
           name="subject"
           value={mailData.subject}
@@ -125,7 +125,7 @@ const GenerateMail = ({ onSendMail }) => {
       <button
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         onClick={handleGenerateMail}
-        style={{marginRight:'5px'}}
+        style={{ marginRight: '5px' }}
         disabled={isLoading} // Disable Generate Mail button while generating
       >
         Generate Mail
@@ -154,7 +154,7 @@ const GenerateMail = ({ onSendMail }) => {
       )}
       {campaignCompleted && ( // Conditionally render completion message
         <div className="text-center mt-4 text-green-500">
-           campaign completed successfully!
+          campaign completed successfully!
         </div>
       )}
       {isCampaignRunning || !isLoading ? (
